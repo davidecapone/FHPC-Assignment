@@ -10,22 +10,22 @@
 module load mkl
 module load openBLAS/0.3.23-omp
 
-# working directory:
-export wd=/u/dssc/drsandro/fast/FHPC_2019-2020/Assignment_2
+# parent path: assignment_2
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+cd "$parent_path"
+make clean
+make cpu
 
 # SPREAD = spread threads over cores
 export OMP_PROC_BIND=spread
 
-cd $wd
-make clean
-make cpu
 
-# initialize column names
 echo "n_cores,size,gflops" > ./results/core_scaling_EPYC_mkl_float_spread.csv
 echo "n_cores,size,gflops" > ./results/core_scaling_EPYC_oblas_float_spread.csv
 echo "n_cores,size,gflops" > ./results/core_scaling_EPYC_mkl_double_spread.csv
 echo "n_cores,size,gflops" > ./results/core_scaling_EPYC_oblas_double_spread.csv
 
+: <<'END'
 # number of used cores goes from 1 to max_cores
 max_cores=64
 
@@ -54,3 +54,4 @@ do
         ./gemm_oblas_double.x 15000 15000 15000 >> ./results/core_scaling_EPYC_oblas_double_spread.csv
         done
 done
+END

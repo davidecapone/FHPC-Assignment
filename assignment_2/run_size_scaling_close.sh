@@ -10,22 +10,22 @@
 module load mkl
 module load openBLAS/0.3.23-omp
 
-# working directory:
-export wd=/u/dssc/drsandro/fast/FHPC_2019-2020/Assignment_2
+# parent path: assignment_2
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+cd "$parent_path"
+make clean
+make cpu
 
 # CLOSE = close threads over cores
 export OMP_PROC_BIND=close
 
-cd $wd
-make clean
-make cpu
 
-# initialize column names
 echo "size,gflops" > ./results/size_scaling_EPYC_mkl_float_close.csv
 echo "size,gflops" > ./results/size_scaling_EPYC_oblas_float_close.csv
 echo "size,gflops" > ./results/size_scaling_EPYC_mkl_double_close.csv
 echo "size,gflops" > ./results/size_scaling_EPYC_oblas_double_close.csv    
 
+: <<'END'
 # size of the matrix goes from 2000 to 20000, step of 1000
 for i in {0..18}
 do  let size=$(( 2000+1000*$i ))
@@ -46,3 +46,4 @@ do  let size=$(( 2000+1000*$i ))
         ./gemm_oblas_double.x $size $size $size >> ./results/size_scaling_EPYC_oblas_double_close.csv
     done
 done
+END
