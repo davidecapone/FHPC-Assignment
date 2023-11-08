@@ -47,11 +47,14 @@ do
 	do
 		echo|set /p=$i, >> ./results/core_scaling_EPYC_mkl_float_spread.csv
 		./gemm_mkl_float.x 15000 15000 15000 >> ./results/core_scaling_EPYC_mkl_float_spread.csv
+
 		echo|set /p=$i, >> ./results/core_scaling_EPYC_oblas_float_spread.csv
-                ./gemm_oblas_float.x 15000 15000 15000 >> ./results/core_scaling_EPYC_oblas_float_spread.csv
+        ./gemm_oblas_float.x 15000 15000 15000 >> ./results/core_scaling_EPYC_oblas_float_spread.csv
+
 		echo|set /p=$i, >> ./results/core_scaling_EPYC_mkl_float_spread.csv
 		./gemm_mkl_double.x 15000 15000 15000 >> ./results/core_scaling_EPYC_mkl_double_spread.csv
+
 		echo|set /p=$i, >> ./results/core_scaling_EPYC_oblas_float_spread.csv
-                ./gemm_oblas_double.x 15000 15000 15000 >> ./results/core_scaling_EPYC_oblas_double_spread.csv
+        ./gemm_oblas_double.x 15000 15000 15000 >> ./results/core_scaling_EPYC_oblas_double_spread.csv
         done
 done

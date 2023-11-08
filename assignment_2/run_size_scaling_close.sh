@@ -27,10 +27,10 @@ make cpu
 
 ## Create csv files and initialize column names
 
-echo "size,gflops" > ./results/size_scaling_EPYC_mkl_float_spread.csv
-echo "size,gflops" > ./results/size_scaling_EPYC_oblas_float_spread.csv
-echo "size,gflops" > ./results/size_scaling_EPYC_mkl_double_spread.csv
-echo "size,gflops" > ./results/size_scaling_EPYC_oblas_double_spread.csv    
+echo "size,gflops" > ./results/size_scaling_EPYC_mkl_float_close.csv
+echo "size,gflops" > ./results/size_scaling_EPYC_oblas_float_close.csv
+echo "size,gflops" > ./results/size_scaling_EPYC_mkl_double_close.csv
+echo "size,gflops" > ./results/size_scaling_EPYC_oblas_double_close.csv    
 
 ## The size of the matrix goes from 2000 to 20000, with a step of 1000
 
@@ -45,9 +45,9 @@ do  let size=$((2000+1000*$i))
 	## Write on csv files the size of the matrix, the gflops obtained using MKL and the gflops obtained using OpenBLAS.
 
         echo $size
-        ./gemm_mkl_float.x $size $size $size >> ./results/size_scaling_EPYC_mkl_float_spread.csv
-        ./gemm_oblas_float.x $size $size $size >> ./results/size_scaling_EPYC_oblas_float_spread.csv
-	./gemm_mkl_double.x $size $size $size >> ./results/size_scaling_EPYC_mkl_double_spread.csv
-        ./gemm_oblas_double.x $size $size $size >> ./results/size_scaling_EPYC_oblas_double_spread.csv
+        ./gemm_mkl_float.x $size $size $size >> ./results/size_scaling_EPYC_mkl_float_close.csv
+        ./gemm_oblas_float.x $size $size $size >> ./results/size_scaling_EPYC_oblas_float_close.csv
+	    ./gemm_mkl_double.x $size $size $size >> ./results/size_scaling_EPYC_mkl_double_close.csv
+        ./gemm_oblas_double.x $size $size $size >> ./results/size_scaling_EPYC_oblas_double_close.csv
     done
 done

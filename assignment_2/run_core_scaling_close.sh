@@ -27,10 +27,10 @@ make cpu
 
 ## Create csv files and initialize column names
 
-echo "n_cores,size,gflops" > ./results/core_scaling_EPYC_mkl_float_spread.csv
-echo "n_cores,size,gflops" > ./results/core_scaling_EPYC_oblas_float_spread.csv
-echo "n_cores,size,gflops" > ./results/core_scaling_EPYC_mkl_double_spread.csv
-echo "n_cores,size,gflops" > ./results/core_scaling_EPYC_oblas_double_spread.csv
+echo "n_cores,size,gflops" > ./results/core_scaling_EPYC_mkl_float_close.csv
+echo "n_cores,size,gflops" > ./results/core_scaling_EPYC_oblas_float_close.csv
+echo "n_cores,size,gflops" > ./results/core_scaling_EPYC_mkl_double_close.csv
+echo "n_cores,size,gflops" > ./results/core_scaling_EPYC_oblas_double_close.csv
 
 ## The number of used cores goes from 1 to 64
 
@@ -45,13 +45,16 @@ do
 
 	for _ in {1..10}
 	do
-		echo|set /p=$i, >> ./results/core_scaling_EPYC_mkl_float_spread.csv
-		./gemm_mkl_float.x 15000 15000 15000 >> ./results/core_scaling_EPYC_mkl_float_spread.csv
-		echo|set /p=$i, >> ./results/core_scaling_EPYC_oblas_float_spread.csv
-                ./gemm_oblas_float.x 15000 15000 15000 >> ./results/core_scaling_EPYC_oblas_float_spread.csv
-		echo|set /p=$i, >> ./results/core_scaling_EPYC_mkl_float_spread.csv
-		./gemm_mkl_double.x 15000 15000 15000 >> ./results/core_scaling_EPYC_mkl_double_spread.csv
-		echo|set /p=$i, >> ./results/core_scaling_EPYC_oblas_float_spread.csv
-                ./gemm_oblas_double.x 15000 15000 15000 >> ./results/core_scaling_EPYC_oblas_double_spread.csv
+		echo|set /p=$i, >> ./results/core_scaling_EPYC_mkl_float_close.csv
+		./gemm_mkl_float.x 15000 15000 15000 >> ./results/core_scaling_EPYC_mkl_float_close.csv
+
+		echo|set /p=$i, >> ./results/core_scaling_EPYC_oblas_float_close.csv
+        ./gemm_oblas_float.x 15000 15000 15000 >> ./results/core_scaling_EPYC_oblas_float_close.csv
+
+		echo|set /p=$i, >> ./results/core_scaling_EPYC_mkl_float_close.csv
+		./gemm_mkl_double.x 15000 15000 15000 >> ./results/core_scaling_EPYC_mkl_double_close.csv
+
+		echo|set /p=$i, >> ./results/core_scaling_EPYC_oblas_float_close.csv
+        ./gemm_oblas_double.x 15000 15000 15000 >> ./results/core_scaling_EPYC_oblas_double_close.csv
         done
 done
