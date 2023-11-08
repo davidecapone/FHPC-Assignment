@@ -44,7 +44,7 @@ do
 
 	## For each number of cores, the test is run 10 times
 
-	for j in {1..10}
+	for _ in {1..10}
 	do
 		echo|set /p=$i, >> ./results/core_scaling_EPYC_mkl_float_spread.csv
 		./gemm_mkl_float.x 15000 15000 15000 >> ./results/core_scaling_EPYC_mkl_float_spread.csv
