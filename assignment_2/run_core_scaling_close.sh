@@ -17,8 +17,7 @@ export wd=/u/dssc/drsandro/fast/Assignment/exercise2
 
 # Define binding policies (spread/close)
 
-export OMP_PROC_BIND=spread
-## TODO: automatizzare da spread a close
+export OMP_PROC_BIND=close
 
 # Run tests
 
