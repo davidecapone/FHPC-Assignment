@@ -4,7 +4,10 @@
 #SBATCH --nodes=1
 #SBATCH --exclusive
 #SBATCH --time=02:00:00
-#SBATCH --output=/u/dssc/drsandro/fast/Assignment/exercise2/slurm.out/%j.out
+#SBATCH --output=%j.out
+#SBATCH --cpus-per-task=64
+
+# $1 : "spread" or "close"
 
 # load libraries
 module load mkl
@@ -17,7 +20,7 @@ make clean
 make cpu
 
 # SPREAD = spread threads over cores
-export OMP_PROC_BIND=spread
+export OMP_PROC_BIND=$1
 
 
 echo "size,gflops" > ./results/size_scaling_EPYC_mkl_float_$1.csv
@@ -25,7 +28,6 @@ echo "size,gflops" > ./results/size_scaling_EPYC_oblas_float_$1.csv
 echo "size,gflops" > ./results/size_scaling_EPYC_mkl_double_$1.csv
 echo "size,gflops" > ./results/size_scaling_EPYC_oblas_double_$1.csv    
 
-: <<'END'
 # size of the matrix goes from 2000 to 20000, step of 1000
 for i in {0..18}
 do  let size=$((2000+1000*$i))
@@ -34,16 +36,15 @@ do  let size=$((2000+1000*$i))
     do
         echo $size
         # mkl float
-        ./gemm_mkl_float.x $size $size $size >> ./results/size_scaling_EPYC_mkl_float_spread.csv
+        ./gemm_mkl_float.x $size $size $size >> ./results/size_scaling_EPYC_mkl_float_$1.csv
 
         # openblas float
-        ./gemm_oblas_float.x $size $size $size >> ./results/size_scaling_EPYC_oblas_float_spread.csv
+        ./gemm_oblas_float.x $size $size $size >> ./results/size_scaling_EPYC_oblas_float_$1.csv
 
         # mkl double
-	    ./gemm_mkl_double.x $size $size $size >> ./results/size_scaling_EPYC_mkl_double_spread.csv
+	    ./gemm_mkl_double.x $size $size $size >> ./results/size_scaling_EPYC_mkl_double_$1.csv
 
         # openblas double
-        ./gemm_oblas_double.x $size $size $size >> ./results/size_scaling_EPYC_oblas_double_spread.csv
+        ./gemm_oblas_double.x $size $size $size >> ./results/size_scaling_EPYC_oblas_double_$1.csv
     done
 done
-END
