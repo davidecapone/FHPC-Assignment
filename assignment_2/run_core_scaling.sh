@@ -43,7 +43,7 @@ do
 	for _ in {1..10}
 	do
 		# mkl float
-		echo "${i}" >> ./results/core_scaling/core_scaling_${NODE}_mkl_float_${POLICY}.csv
+		echo|set /p=$i, >> ./results/core_scaling/core_scaling_${NODE}_mkl_float_${POLICY}.csv
 		./gemm_mkl_float.x 15000 15000 15000 >> ./results/core_scaling/core_scaling_${NODE}_mkl_float_${POLICY}.csv
 
 		# openblas float

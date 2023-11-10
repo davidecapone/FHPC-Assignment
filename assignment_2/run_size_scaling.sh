@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --no-requeue
-#SBATCH --partition=EPYC
-#SBATCH --cpus-per-task=64
+#SBATCH --partition=THIN
+#SBATCH --cpus-per-task=12
 #SBATCH --job-name=size_scaling
 #SBATCH --nodes=1
 #SBATCH --exclusive
