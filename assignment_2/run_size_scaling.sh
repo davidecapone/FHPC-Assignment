@@ -33,7 +33,7 @@ echo "size,gflops" > "./results/size_scaling/size_scaling_${NODE}_mkl_double_${P
 echo "size,gflops" > "./results/size_scaling/size_scaling_${NODE}_oblas_double_${POLICY}.csv"  
 
 # size of the matrix goes from 2000 to 20000, step of 1000
-echo "Starting size scaling test on node $NODE using $POLICY policy\n"
+echo "Starting size scaling test on node $NODE using $POLICY policy"
 for i in {0..18}
 do  let size=$((2000+1000*$i))
     # fixing the size of the matrix, the test is executed 10 times
