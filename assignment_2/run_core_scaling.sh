@@ -37,7 +37,7 @@ max_cores=64
 echo "Starting core scaling test on node $NODE using $POLICY policy"
 
 for ((i=1; i<=$max_cores; i++)) do	
-	# set number cores
+	# set number of cores
 	set OMP_NUM_THREADS=$i
 	cd $SCRIPT_DIR
 
@@ -47,7 +47,7 @@ for ((i=1; i<=$max_cores; i++)) do
 		# - we run the executable
 		# - we save the output 
 		# - we parse the output and save it in the csv file (n_cores, size, gflops)
-		# this process foreach library:
+		# this process for each library:
 		IFS=',' read -ra ADDR <<< "$(./gemm_mkl_float.x 15000 15000 15000)"
 		size=${ADDR[0]}
 		gflops=${ADDR[1]}
