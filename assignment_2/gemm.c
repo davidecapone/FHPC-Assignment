@@ -2,7 +2,8 @@
  * authors   : Giuseppe Piero Brandino - eXact-lab s.r.l.
  * date      : October 2018
  * copyright : GNU Public License
- * modifiedby: Stefano Cozzini for DSSC usage, Sandro Junior Della Rovere for printing purposes
+ * modifiedby: Stefano Cozzini for DSSC usage, 
+              Sandro Junior Della Rovere and Davide Capone for adaptability purposes
  */
 
 #define min(x,y) (((x) < (y)) ? (x) : (y))
