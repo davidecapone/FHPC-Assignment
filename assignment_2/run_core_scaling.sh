@@ -4,6 +4,7 @@
 #SBATCH --job-name=core_scaling
 #SBATCH --nodes=1
 #SBATCH --exclusive
+#SBATCH --cpus-per-task=64
 #SBATCH --time=02:00:00
 #SBATCH --output=/u/dssc/dcapone/fast/FHPC-Assignment/assignment_2/slurm.out/core_scaling%j.out
 
@@ -22,6 +23,7 @@ cd $SCRIPT_DIR
 #make clean
 #make cpu
 
+export OMP_PLACES=cores
 export OMP_PROC_BIND=$POLICY
 
 echo "n_cores,size,gflops" > "./results/core_scaling/core_scaling_${NODE}_mkl_float_${POLICY}.csv"
@@ -35,7 +37,7 @@ echo "Starting core scaling test on node $NODE using $POLICY policy"
 
 for ((i=1; i<=$max_cores; i++)) do	
 	# set number of cores
-	set OMP_NUM_THREADS=$i
+	export OMP_NUM_THREADS=$i
 	cd $SCRIPT_DIR
 
 	for _ in {1..10} 
