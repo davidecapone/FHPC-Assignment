@@ -27,7 +27,7 @@ export OMP_PROC_BIND=$POLICY
 #echo "n_cores,time" > "./results/core_scaling/core_scaling_${NODE}_mkl_float_${POLICY}.csv"
 #echo "n_cores,time" > "./results/core_scaling/core_scaling_${NODE}_oblas_float_${POLICY}.csv"
 #echo "n_cores,time" > "./results/core_scaling/core_scaling_${NODE}_mkl_double_${POLICY}.csv"
-#echo "n_cores,time" > "./results/core_scaling/core_scaling_${NODE}_oblas_double_${POLICY}.csv"
+echo "n_cores,time" > "./results/core_scaling/core_scaling_${NODE}_oblas_double_${POLICY}.csv"
 
 echo "Starting core scaling test on node $NODE using $POLICY policy"
 max_cores=64
@@ -45,31 +45,31 @@ for ((i=1; i<=$max_cores; i++)) do
 		# - we parse the output and save it in the csv file (n_cores, size, gflops)
 
 		: << 'END'
-		IFS=',' read -ra ADDR <<< "$(./gemm_mkl_float.x 10000 10000 10000)"
+		IFS=',' read -ra ADDR <<< "$(./gemm_cs_mkl_float.x 10000 10000 10000)"
 		time=${ADDR[0]}
 		echo "$i,$time" >> ./results/core_scaling/core_scaling_${NODE}_mkl_float_${POLICY}.csv
 		echo "mkl float done"
 END
 
 		: << 'END'
-		IFS=',' read -ra ADDR <<< "$(./gemm_oblas_float.x 10000 10000 10000)"
+		IFS=',' read -ra ADDR <<< "$(./gemm_cs_oblas_float.x 10000 10000 10000)"
 		time=${ADDR[0]}
 		echo "$i,$time" >> ./results/core_scaling/core_scaling_${NODE}_oblas_float_${POLICY}.csv
 		echo "openblas float done"
 END
 
 		: << 'END'
-		IFS=',' read -ra ADDR <<< "$(./gemm_mkl_double.x 10000 10000 10000)"
+		IFS=',' read -ra ADDR <<< "$(./gemm_cs_mkl_double.x 10000 10000 10000)"
 		time=${ADDR[0]}
 		echo "$i,$time" >> ./results/core_scaling/core_scaling_${NODE}_mkl_double_${POLICY}.csv
 		echo "mkl double done"
 END
 	
-		: << 'END'
-		IFS=',' read -ra ADDR <<< "$(./gemm_oblas_double.x 10000 10000 10000)"
-		size=${ADDR[0]}
+		#: << 'END'
+		IFS=',' read -ra ADDR <<< "$(./gemm_cs_oblas_double.x 10000 10000 10000)"
+		time=${ADDR[0]}
 		echo "$i,$time" >> ./results/core_scaling/core_scaling_${NODE}_oblas_double_${POLICY}.csv
 		echo "openblas double done"
-END
+#END
 	done
 done

@@ -23,10 +23,10 @@ cd $SCRIPT_DIR
 
 export OMP_PROC_BIND=$POLICY
 
-#echo "size,gflops" > "./results/size_scaling/size_scaling_${NODE}_mkl_float_${POLICY}.csv"
-#echo "size,gflops" > "./results/size_scaling/size_scaling_${NODE}_oblas_float_${POLICY}.csv"
-#echo "size,gflops" > "./results/size_scaling/size_scaling_${NODE}_mkl_double_${POLICY}.csv"
-#echo "size,gflops" > "./results/size_scaling/size_scaling_${NODE}_oblas_double_${POLICY}.csv"  
+echo "size,gflops" > "./results/size_scaling/size_scaling_${NODE}_mkl_float_${POLICY}.csv"
+echo "size,gflops" > "./results/size_scaling/size_scaling_${NODE}_oblas_float_${POLICY}.csv"
+echo "size,gflops" > "./results/size_scaling/size_scaling_${NODE}_mkl_double_${POLICY}.csv"
+echo "size,gflops" > "./results/size_scaling/size_scaling_${NODE}_oblas_double_${POLICY}.csv"  
 
 
 echo "Starting size scaling test on node $NODE using $POLICY policy"
@@ -39,16 +39,16 @@ do  let size=$((2000+1000*$i))
         echo "size: $size"
         cd $SCRIPT_DIR
         # mkl float
-        ./gemm_mkl_float.x $size $size $size >> "./results/size_scaling/size_scaling_${NODE}_mkl_float_${POLICY}.csv"
+        ./gemm_ss_mkl_float.x $size $size $size >> "./results/size_scaling/size_scaling_${NODE}_mkl_float_${POLICY}.csv"
         echo "mkl float done"
         # openblas float
-        ./gemm_oblas_float.x $size $size $size >> "./results/size_scaling/size_scaling_${NODE}_oblas_float_${POLICY}.csv"
+        ./gemm_ss_oblas_float.x $size $size $size >> "./results/size_scaling/size_scaling_${NODE}_oblas_float_${POLICY}.csv"
         echo "openblas float done"
         # mkl double
-	    ./gemm_mkl_double.x $size $size $size >> "./results/size_scaling/size_scaling_${NODE}_mkl_double_${POLICY}.csv"
+	    ./gemm_ss_mkl_double.x $size $size $size >> "./results/size_scaling/size_scaling_${NODE}_mkl_double_${POLICY}.csv"
         echo "mkl double done"
         # openblas double
-        ./gemm_oblas_double.x $size $size $size >> "./results/size_scaling/size_scaling_${NODE}_oblas_double_${POLICY}.csv"
+        ./gemm_ss_oblas_double.x $size $size $size >> "./results/size_scaling/size_scaling_${NODE}_oblas_double_${POLICY}.csv"
         echo "openblas double done"
     done
 done
