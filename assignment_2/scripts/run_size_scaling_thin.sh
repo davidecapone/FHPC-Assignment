@@ -4,6 +4,7 @@
 #SBATCH --cpus-per-task=12
 #SBATCH --job-name=ss_thin
 #SBATCH --nodes=1
+#SBATCH --nodelist=thin[001]
 #SBATCH --exclusive
 #SBATCH --time=02:00:00
 #SBATCH --output=/u/dssc/dcapone/fast/FHPC-Assignment/assignment_2/slurm.out/size_scaling%j.out
