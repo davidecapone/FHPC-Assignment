@@ -1,6 +1,6 @@
 /*
-This file C file is based on the code given by the professor, original code:
-    https://github.com/Foundations-of-HPC/Foundations_of_HPC_2022/blob/main/Assignment/exercise1/get_args.c
+Original code can be found here:
+https://github.com/Foundations-of-HPC/Foundations_of_HPC_2022/blob/main/Assignment/exercise1/get_args.c
 */
 
 #include <stdlib.h>

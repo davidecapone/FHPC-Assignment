@@ -1,0 +1,46 @@
+Thu Nov 30 12:21:12 PM CET 2023
+thin006
+dcapone
+/fast/dssc/dcapone/FHPC-Assignment/assignment_1
+total 6
+drwxr-xr-x 2 dcapone 10080260    6 Nov 30 09:46 include
+-rw-r--r-- 1 dcapone 10080260 1255 Nov 30 11:00 main.c
+-rw-r--r-- 1 dcapone 10080260  548 Nov 30 09:38 MakeFile
+drwxr-xr-x 2 dcapone 10080260    0 Nov 30 09:38 obj
+-rw-r--r-- 1 dcapone 10080260 1136 Nov 30 09:42 README.md
+drwxrwxrwx 2 dcapone 10080260    0 Nov 27 18:18 results
+-rw-r--r-- 1 dcapone 10080260 1396 Nov 30 12:16 run.sh
+-rw-r--r-- 1 dcapone 10080260   96 Nov 30 12:21 slurm-84993.out
+drwxr-xr-x 2 dcapone 10080260    3 Nov 30 10:24 slurm-scripts
+drwxr-xr-x 2 dcapone 10080260    0 Nov 27 19:02 snaps
+drwxr-xr-x 2 dcapone 10080260    6 Nov 30 11:01 src
+Lmod Warning: The architecture selection module has been deprecated. The
+module system will now autonomously handle the proper selection of binaries. 
+While processing the following module(s):
+    Module fullname   Module Filename
+    ---------------   ---------------
+    architecture/AMD  /orfeo/opt/modules/profiles/architecture/AMD.lua
+
+make: *** No rule to make target 'clean'.  Stop.
+make: *** No rule to make target 'image'.  Stop.
+make: *** No targets specified and no makefile found.  Stop.
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ./main.x
+Node: thin006
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+12 total processes failed to start
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ./main.x
+Node: thin006
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+12 total processes failed to start

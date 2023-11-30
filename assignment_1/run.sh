@@ -7,24 +7,31 @@
 #SBATCH --exclusive
 #SBATCH --time=02:00:00
 
-make clean
-make
-
-# change the module load commands
-# according to the architecture (Intel or AMD)
-module purge
-module load architecture/Intel
-module load openMPI/4.1.4/gnu/12.2.1
-
 # To know each slurm.out file belongs to which job
 date
 hostname
 whoami
 pwd
 
+ls -l
 
 # number of MPI processes
-n_proc=12
+n_MPI_proc=12
+
+module purge
+# change module according to the architecture:
+#module load architecture/Intel
+#module load openMPI/4.1.4/gnu/12.2.1
+module load openMPI/4.1.5/gnu/12.2.1 
+# or
+module load architecture/AMD
+#module load openMPI/4.1.4/gnu/12.2.1
+module load openMPI/4.1.5/gnu/12.2.1 
+
+# remove main.x if it exists and all the .o files in obj/ directory
+make clean
+#make image
+make
 
 # set the environment variables
 # according to your needs
@@ -32,12 +39,14 @@ export OMP_PLACES=cores
 export OMP_PROC_BIND=close
 export OMP_NUM_THREADS=8
 
-size_grid=10000     # the size of the grid
-evolution=1         # 0: ordered, 1: static
-steps_snapshot=1    # every how many steps to take a snapshot
-steps=15            # number of steps to evolve
-file=file.pbm
+k=10000             # playground size
+e=1                 # evolution type, 0 ordered, 1 random
+n=15                # number of steps to be calculated
+s=1                 # every how many steps take a snapshot (0 means only at the end)
+f=fileName.pbm      # name of the file to be either read or written
+                    # use -f $filename to load an initial state from the file
+                    # use the option -i to generate it
 
-# run the MPI program
-mpirun -np $n_proc ./main.x -i -k $size_grid
-mpirun -np $n_proc ./main.x -r -n $steps -s $steps_snapshot -e $evolution
+# run:
+mpirun -np $n_MPI_proc ./main.x -i -k $k
+mpirun -np $n_MPI_proc ./main.x -r -n $n -s $s -e $e
