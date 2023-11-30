@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --no-requeue
-#SBATCH --job-name="omp_scal"
+#SBATCH --job-name="OMP_scalability"
 #SBATCH --get-user-env
 #SBATCH --partition=THIN
 #SBATCH --nodes=1
@@ -9,9 +9,9 @@
 #SBATCH --nodelist=thin[008]
 
 module load architecture/Intel
-module load openMPI/4.1.4/gnu/12.2.1
+module load openMPI/4.1.5/gnu/12.2.1
 
-cd ../
+ls
 make clean
 make image
 make
@@ -24,11 +24,9 @@ evolution=0
 
 mpirun -np 2 ./main.x -i -k $k
 dir=results
-
 echo size,OMP-threads,time > $dir/omp_scal_ordered_ev_size$k.csv
 
-to=12
-for i in {1..$to}
+for i in {1..12}
 do
 	export OMP_NUM_THREADS=$i
 	for j in {1..5}

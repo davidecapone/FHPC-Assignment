@@ -7,26 +7,16 @@
 #SBATCH --exclusive
 #SBATCH --time=02:00:00
 
-# To know each slurm.out file belongs to which job
-date
-hostname
-whoami
-pwd
-
-ls -l
-
 # number of MPI processes
 n_MPI_proc=12
 
 module purge
-# change module according to the architecture:
-#module load architecture/Intel
-#module load openMPI/4.1.4/gnu/12.2.1
+module load architecture/Intel
 module load openMPI/4.1.5/gnu/12.2.1 
+
 # or
-module load architecture/AMD
-#module load openMPI/4.1.4/gnu/12.2.1
-module load openMPI/4.1.5/gnu/12.2.1 
+#module load architecture/AMD
+#module load openMPI/4.1.5/gnu/12.2.1 
 
 # remove main.x if it exists and all the .o files in obj/ directory
 make clean

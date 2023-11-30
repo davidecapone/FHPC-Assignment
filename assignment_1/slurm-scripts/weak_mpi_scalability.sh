@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --no-requeue
-#SBATCH --job-name="w_mpi_scal"
+#SBATCH --job-name="MPI-W_scalability"
 #SBATCH --get-user-env
 #SBATCH --partition=THIN
 #SBATCH --nodes=1
@@ -9,7 +9,7 @@
 #SBATCH --nodelist=thin[010]
 
 module load architecture/Intel
-module load openMPI/4.1.4/gnu/12.2.1
+module load openMPI/4.1.5/gnu/12.2.1
 
 cd ../
 make clean
@@ -24,16 +24,15 @@ evolution=1
 dir=results
 sizes=(10000 10000 14142 17321 20000 22361 24496 26458 28284 30000)
 
-echo size,cores,time > $resultdir/weak_mpi_scal_static_ev_16omp-threds.csv
+echo size,cores,time > $dir/weak_mpi_scal_static_ev_16omp_threads.csv
 
-to=9
 for i in {1..9}
 do
     mpirun -np 1 ./main.x -i ${sizes[i]}
     for j in {1..5}
     do
-        echo -n ${sizes[i]},$i >> $dir/weak_mpi_scal_static_ev_16omp-threds.csv
-        mpirun -np $i --map-by core ./main.x -r -n 10 -e $evolution -t >> $dir/weak_mpi_scal_static_ev_16omp-threds.csv
+        echo -n ${sizes[i]},$i >> $dir/weak_mpi_scal_static_ev_16omp_threads.csv
+        mpirun -np $i --map-by core ./main.x -r -n 10 -e $evolution -t >> $dir/weak_mpi_scal_static_ev_16omp_threads.csv
     done
 done
 

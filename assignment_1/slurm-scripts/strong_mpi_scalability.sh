@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --no-requeue
-#SBATCH --job-name="s_mpi_scal"
+#SBATCH --job-name="MPI-s_scalability"
 #SBATCH --get-user-env
 #SBATCH --partition=THIN
 #SBATCH --nodes=2
@@ -8,9 +8,9 @@
 #SBATCH --time=02:00:00
 
 module load architecture/Intel
-module load openMPI/4.1.4/gnu/12.2.1
+module load openMPI/4.1.5/gnu/12.2.1
 
-cd ../
+ls
 make clean
 make image
 make
@@ -18,6 +18,7 @@ make
 export OMP_PLACES=cores
 export OMP_PROC_BIND=close
 export OMP_NUM_THREADS=1
+
 
 k=10000
 evolution=0
@@ -27,8 +28,8 @@ dir=results
 
 echo size,cores,time > $dir/strong_mpi_scal_ordered_ev_size$k.csv
 
-to=24
-for i in {1..$to}
+
+for i in {1..24}
 do
     for j in {1..5}
     do
