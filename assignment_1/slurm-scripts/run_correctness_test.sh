@@ -2,17 +2,17 @@
 #SBATCH --no-requeue
 #SBATCH --job-name="conw_test"
 #SBATCH --get-user-env
-#SBATCH --partition=THIN
+#SBATCH --partition=EPYC
 #SBATCH --nodes=1
 #SBATCH --exclusive
 #SBATCH --time=02:00:00
 #SBATCH --output=/u/dssc/dcapone/fast/FHPC-Assignment/assignment_1/slurm.out/correctness_test_%j.out
 
 # number of MPI processes
-n_MPI_proc=12
+n_MPI_proc=5
 
 module purge
-module load architecture/Intel
+#module load architecture/Intel
 module load openMPI/4.1.5/gnu/12.2.1 
 
 make clean
@@ -22,9 +22,9 @@ make
 # set the environment variables
 export OMP_PLACES=cores
 export OMP_PROC_BIND=close
-export OMP_NUM_THREADS=12
+export OMP_NUM_THREADS=5
 
-k=5           # playground size
+k=3           # playground size
 e=0           # evolution type, 0 ordered, 1 random
 n=3           # number of steps to be calculated
 s=1           # every how many steps take a snapshot (0 means only at the end)
