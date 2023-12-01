@@ -9,7 +9,7 @@
 #SBATCH --output=/u/dssc/drsandro/fast/FHPC-Assignment/assignment_1/slurm.out/correctness_test_%j.out
 
 # number of MPI processes
-n_MPI_proc=5
+n_MPI_proc=10
 
 module purge
 #module load architecture/Intel
@@ -22,7 +22,7 @@ make
 # set the environment variables
 export OMP_PLACES=cores
 export OMP_PROC_BIND=close
-export OMP_NUM_THREADS=5
+export OMP_NUM_THREADS=64
 
 k=5           # playground size
 e=1           # evolution type, 0 ordered, 1 static
