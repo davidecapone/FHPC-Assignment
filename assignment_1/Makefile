@@ -18,7 +18,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -o $@ $^
 clean:
 	rm -f $(OBJDIR)/*.o *.x
-image:
+clean_images:
 	rm -f *.pbm
 	rm -f $(SNAPDIR)/*
 

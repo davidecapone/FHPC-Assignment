@@ -13,7 +13,7 @@ module load openMPI/4.1.5/gnu/12.2.1
 
 cd ../
 make clean
-make image
+make clean_images
 make
 
 export OMP_PLACES=cores
