@@ -1,0 +1,41 @@
+Lmod Warning: The architecture selection module has been deprecated. The
+module system will now autonomously handle the proper selection of binaries. 
+While processing the following module(s):
+    Module fullname     Module Filename
+    ---------------     ---------------
+    architecture/Intel  /orfeo/opt/modules/profiles/architecture/Intel.lua
+
+rm -f obj/*.o *.x
+rm -f *.pbm
+rm -f snaps/*
+mpicc -Iinclude -Wall -c -fopenmp -o obj/main.o main.c	
+mpicc -Iinclude -Wall -c -fopenmp -o obj/initialize.o src/initialize.c
+mpicc -Iinclude -Wall -c -fopenmp -o obj/read_write.o src/read_write.c
+mpicc -Iinclude -Wall -c -fopenmp -o obj/run.o src/run.c
+mpicc -Iinclude -Wall -c -fopenmp -o obj/should_live.o src/should_live.c
+mpicc -Iinclude -Wall -c -fopenmp -o obj/ordered_evolution.o src/ordered_evolution.c
+mpicc -Iinclude -Wall -c -fopenmp -o obj/static_evolution.o src/static_evolution.c
+mpicc -Wall -fopenmp -O3 -march=native -o main.x obj/main.o obj/initialize.o obj/read_write.o obj/run.o obj/should_live.o obj/ordered_evolution.o obj/static_evolution.o
+free(): invalid next size (fast)
+[thin007:3613619] *** Process received signal ***
+[thin007:3613619] Signal: Aborted (6)
+[thin007:3613619] Signal code:  (-6)
+[thin007:3613619] [ 0] /lib64/libc.so.6(+0x3cb20)[0x146ef1401b20]
+[thin007:3613619] [ 1] /lib64/libc.so.6(+0x8ce5c)[0x146ef1451e5c]
+[thin007:3613619] [ 2] /lib64/libc.so.6(gsignal+0x16)[0x146ef1401a76]
+[thin007:3613619] [ 3] /lib64/libc.so.6(abort+0xd7)[0x146ef13eb7fc]
+[thin007:3613619] [ 4] /lib64/libc.so.6(+0x8108e)[0x146ef144608e]
+[thin007:3613619] [ 5] /lib64/libc.so.6(+0x96b9c)[0x146ef145bb9c]
+[thin007:3613619] [ 6] /lib64/libc.so.6(+0x98aba)[0x146ef145daba]
+[thin007:3613619] [ 7] /lib64/libc.so.6(__libc_free+0x73)[0x146ef1460363]
+[thin007:3613619] [ 8] /lib64/libc.so.6(+0x9b452)[0x146ef1460452]
+[thin007:3613619] [ 9] /lib64/libc.so.6(+0x8afb3)[0x146ef144ffb3]
+[thin007:3613619] [10] /lib64/libc.so.6(+0x10cbc0)[0x146ef14d1bc0]
+[thin007:3613619] *** End of error message ***
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 3613619 on node thin007 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
