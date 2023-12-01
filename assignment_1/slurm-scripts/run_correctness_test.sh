@@ -25,10 +25,10 @@ export OMP_PROC_BIND=close
 export OMP_NUM_THREADS=5
 
 k=5           # playground size
-e=0           # evolution type, 0 ordered, 1 random
+e=1           # evolution type, 0 ordered, 1 static
 n=3           # number of steps to be calculated
 s=1           # every how many steps take a snapshot (0 means only at the end)
 
 # run:
-mpirun -np $n_MPI_proc ./main.x -i -k $k
+#mpirun -np $n_MPI_proc ./main.x -i -k $k
 mpirun -np $n_MPI_proc ./main.x -r -n $n -s $s -e $e

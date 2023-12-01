@@ -1,0 +1,178 @@
+rm -f obj/*.o *.x
+rm -f *.pbm
+rm -f snaps/*
+mpicc -Iinclude -Wall -c -fopenmp -o obj/main.o main.c	
+mpicc -Iinclude -Wall -c -fopenmp -o obj/initialize.o src/initialize.c
+mpicc -Iinclude -Wall -c -fopenmp -o obj/read_write.o src/read_write.c
+mpicc -Iinclude -Wall -c -fopenmp -o obj/run.o src/run.c
+mpicc -Iinclude -Wall -c -fopenmp -o obj/should_live.o src/should_live.c
+mpicc -Iinclude -Wall -c -fopenmp -o obj/ordered_evolution.o src/ordered_evolution.c
+mpicc -Iinclude -Wall -c -fopenmp -o obj/static_evolution.o src/static_evolution.c
+mpicc -Wall -fopenmp -O3 -march=native -o main.x obj/main.o obj/initialize.o obj/read_write.o obj/run.o obj/should_live.o obj/ordered_evolution.o obj/static_evolution.o
+[epyc002:2763073:0:2763073] Caught signal 11 (Segmentation fault: address not mapped to object at address 0xc0)
+[epyc002:2763069:0:2763069] Caught signal 11 (Segmentation fault: address not mapped to object at address 0xc0)
+[epyc002:2763071:0:2763071] Caught signal 11 (Segmentation fault: address not mapped to object at address 0xc0)
+[epyc002:2763072:0:2763072] Caught signal 11 (Segmentation fault: address not mapped to object at address 0xc0)
+==== backtrace (tid:2763073) ====
+ 0  /lib64/libucs.so.0(ucs_handle_error+0x2e4) [0x14ceef19bf14]
+ 1  /lib64/libucs.so.0(+0x2865d) [0x14ceef19c65d]
+ 2  /lib64/libucs.so.0(+0x28845) [0x14ceef19c845]
+ 3  /lib64/libc.so.6(+0x5c770) [0x14cef845c770]
+ 4  /lib64/libc.so.6(__isoc99_fscanf+0x9d) [0x14cef845bebd]
+ 5  ./main.x() [0x401c9b]
+ 6  ./main.x() [0x402859]
+ 7  ./main.x() [0x402479]
+ 8  ./main.x() [0x401fe5]
+ 9  ./main.x() [0x40151e]
+10  /lib64/libc.so.6(+0x29510) [0x14cef8429510]
+11  /lib64/libc.so.6(__libc_start_main+0x89) [0x14cef84295c9]
+12  ./main.x() [0x401235]
+=================================
+==== backtrace (tid:2763069) ====
+ 0  /lib64/libucs.so.0(ucs_handle_error+0x2e4) [0x154f8a77af14]
+ 1  /lib64/libucs.so.0(+0x2865d) [0x154f8a77b65d]
+ 2  /lib64/libucs.so.0(+0x28845) [0x154f8a77b845]
+ 3  /lib64/libc.so.6(+0x5c770) [0x154f93a5c770]
+ 4  /lib64/libc.so.6(__isoc99_fscanf+0x9d) [0x154f93a5bebd]
+ 5  ./main.x() [0x401c9b]
+ 6  ./main.x() [0x402859]
+ 7  ./main.x() [0x402479]
+ 8  ./main.x() [0x401fe5]
+ 9  ./main.x() [0x40151e]
+10  /lib64/libc.so.6(+0x29510) [0x154f93a29510]
+11  /lib64/libc.so.6(__libc_start_main+0x89) [0x154f93a295c9]
+12  ./main.x() [0x401235]
+=================================
+==== backtrace (tid:2763072) ====
+ 0  /lib64/libucs.so.0(ucs_handle_error+0x2e4) [0x14da3009af14]
+ 1  /lib64/libucs.so.0(+0x2865d) [0x14da3009b65d]
+ 2  /lib64/libucs.so.0(+0x28845) [0x14da3009b845]
+ 3  /lib64/libc.so.6(+0x5c770) [0x14da3265c770]
+ 4  /lib64/libc.so.6(__isoc99_fscanf+0x9d) [0x14da3265bebd]
+ 5  ./main.x() [0x401c9b]
+ 6  ./main.x() [0x402859]
+ 7  ./main.x() [0x402479]
+ 8  ./main.x() [0x401fe5]
+ 9  ./main.x() [0x40151e]
+10  /lib64/libc.so.6(+0x29510) [0x14da32629510]
+11  /lib64/libc.so.6(__libc_start_main+0x89) [0x14da326295c9]
+12  ./main.x() [0x401235]
+=================================
+[epyc002:2763073] *** Process received signal ***
+[epyc002:2763073] Signal: Segmentation fault (11)
+[epyc002:2763073] Signal code:  (-6)
+[epyc002:2763073] Failing at address: 0x99cfca002a2941
+[epyc002:2763072] *** Process received signal ***
+[epyc002:2763073] [ 0] [epyc002:2763069] *** Process received signal ***
+[epyc002:2763069] Signal: Segmentation fault (11)
+[epyc002:2763069] Signal code:  (-6)
+[epyc002:2763069] Failing at address: 0x99cfca002a293d
+[epyc002:2763072] Signal: Segmentation fault (11)
+[epyc002:2763072] Signal code:  (-6)
+[epyc002:2763072] Failing at address: 0x99cfca002a2940
+==== backtrace (tid:2763071) ====
+ 0  /lib64/libucs.so.0(ucs_handle_error+0x2e4) [0x148932226f14]
+ 1  /lib64/libucs.so.0(+0x2865d) [0x14893222765d]
+ 2  /lib64/libucs.so.0(+0x28845) [0x148932227845]
+ 3  /lib64/libc.so.6(+0x5c770) [0x14893b45c770]
+ 4  /lib64/libc.so.6(__isoc99_fscanf+0x9d) [0x14893b45bebd]
+/lib64/libc.so.6(+0x3ea00)[0x14cef843ea00]
+[epyc002:2763073] [ 1] /lib64/libc.so.6(+0x5c770)[0x14cef845c770]
+[epyc002:2763073] [ 2] [epyc002:2763069] [ 0] [epyc002:2763072] [ 0]  5  ./main.x() [0x401c9b]
+ 6  ./main.x() [0x402859]
+ 7  ./main.x() [0x402479]
+ 8  ./main.x() [0x401fe5]
+ 9  ./main.x() [0x40151e]
+10  /lib64/libc.so.6(+0x29510) [0x14893b429510]
+11  /lib64/libc.so.6(__libc_start_main+0x89) [0x14893b4295c9]
+12  ./main.x() [0x401235]
+=================================
+/lib64/libc.so.6(+0x3ea00)[0x154f93a3ea00]
+[epyc002:2763069] [ 1] /lib64/libc.so.6(__isoc99_fscanf+0x9d)[0x14cef845bebd]
+[epyc002:2763073] [ 3] ./main.x[0x401c9b]
+[epyc002:2763073] [ 4] ./main.x[0x402859]
+[epyc002:2763073] [ 5] ./main.x[0x402479]
+[epyc002:2763073] [ 6] ./main.x[0x401fe5]
+[epyc002:2763073] [ 7] ./main.x[0x40151e]
+[epyc002:2763073] [ 8] /lib64/libc.so.6(+0x29510)[0x14cef8429510]
+[epyc002:2763073] [ 9] [epyc002:2763071] *** Process received signal ***
+[epyc002:2763071] Signal: Segmentation fault (11)
+[epyc002:2763071] Signal code:  (-6)
+[epyc002:2763071] Failing at address: 0x99cfca002a293f
+/lib64/libc.so.6(+0x5c770)[0x154f93a5c770]
+[epyc002:2763069] [ 2] /lib64/libc.so.6(+0x3ea00)[0x14da3263ea00]
+[epyc002:2763072] [ 1] /lib64/libc.so.6(+0x5c770)[0x14da3265c770]
+[epyc002:2763072] [ 2] /lib64/libc.so.6(__isoc99_fscanf+0x9d)[0x154f93a5bebd]
+[epyc002:2763069] [ 3] ./main.x[0x401c9b]
+[epyc002:2763069] [ 4] ./main.x[0x402859]
+[epyc002:2763069] /lib64/libc.so.6(__isoc99_fscanf+0x9d)[0x14da3265bebd]
+[epyc002:2763072] [ 3] ./main.x[0x401c9b]
+[epyc002:2763072] [ 4] ./main.x[0x402859]
+[epyc002:2763072] [ 5] ./main.x[0x402479]
+[epyc002:2763072] [ 6] ./main.x[0x401fe5]
+[epyc002:2763072] [ 7] ./main.x[0x40151e]
+[epyc002:2763072] [ 8] [epyc002:2763071] [ 0] /lib64/libc.so.6(__libc_start_main+0x89)[0x14cef84295c9]
+[epyc002:2763073] [10] ./main.x[0x401235]
+[epyc002:2763073] *** End of error message ***
+[ 5] ./main.x[0x402479]
+[epyc002:2763069] [ 6] ./main.x[0x401fe5]
+[epyc002:2763069] [ 7] ./main.x[0x40151e]
+[epyc002:2763069] [ 8] /lib64/libc.so.6(+0x29510)[0x154f93a29510]
+[epyc002:2763069] [ 9] /lib64/libc.so.6(+0x3ea00)[0x14893b43ea00]
+[epyc002:2763071] /lib64/libc.so.6(+0x29510)[0x14da32629510]
+[epyc002:2763072] [ 9] /lib64/libc.so.6(__libc_start_main+0x89)[0x14da326295c9]
+[epyc002:2763072] [10] ./main.x[0x401235]
+/lib64/libc.so.6(__libc_start_main+0x89)[0x154f93a295c9]
+[epyc002:2763069] [10] ./main.x[0x401235]
+[epyc002:2763069] *** End of error message ***
+[ 1] /lib64/libc.so.6(+0x5c770)[0x14893b45c770]
+[epyc002:2763071] [ 2] [epyc002:2763072] *** End of error message ***
+/lib64/libc.so.6(__isoc99_fscanf+0x9d)[0x14893b45bebd]
+[epyc002:2763071] [ 3] ./main.x[0x401c9b]
+[epyc002:2763071] [ 4] ./main.x[0x402859]
+[epyc002:2763071] [ 5] ./main.x[0x402479]
+[epyc002:2763071] [ 6] ./main.x[0x401fe5]
+[epyc002:2763071] [ 7] ./main.x[0x40151e]
+[epyc002:2763071] [ 8] /lib64/libc.so.6(+0x29510)[0x14893b429510]
+[epyc002:2763071] [ 9] /lib64/libc.so.6(__libc_start_main+0x89)[0x14893b4295c9]
+[epyc002:2763071] [10] ./main.x[0x401235]
+[epyc002:2763071] *** End of error message ***
+[epyc002:2763070:0:2763070] Caught signal 11 (Segmentation fault: address not mapped to object at address 0xc0)
+==== backtrace (tid:2763070) ====
+ 0  /lib64/libucs.so.0(ucs_handle_error+0x2e4) [0x15354e999f14]
+ 1  /lib64/libucs.so.0(+0x2865d) [0x15354e99a65d]
+ 2  /lib64/libucs.so.0(+0x28845) [0x15354e99a845]
+ 3  /lib64/libc.so.6(+0x5c770) [0x153557c5c770]
+ 4  /lib64/libc.so.6(__isoc99_fscanf+0x9d) [0x153557c5bebd]
+ 5  ./main.x() [0x401c9b]
+ 6  ./main.x() [0x402859]
+ 7  ./main.x() [0x402479]
+ 8  ./main.x() [0x401fe5]
+ 9  ./main.x() [0x40151e]
+10  /lib64/libc.so.6(+0x29510) [0x153557c29510]
+11  /lib64/libc.so.6(__libc_start_main+0x89) [0x153557c295c9]
+12  ./main.x() [0x401235]
+=================================
+[epyc002:2763070] *** Process received signal ***
+[epyc002:2763070] Signal: Segmentation fault (11)
+[epyc002:2763070] Signal code:  (-6)
+[epyc002:2763070] Failing at address: 0x99cfca002a293e
+[epyc002:2763070] [ 0] /lib64/libc.so.6(+0x3ea00)[0x153557c3ea00]
+[epyc002:2763070] [ 1] /lib64/libc.so.6(+0x5c770)[0x153557c5c770]
+[epyc002:2763070] [ 2] /lib64/libc.so.6(__isoc99_fscanf+0x9d)[0x153557c5bebd]
+[epyc002:2763070] [ 3] ./main.x[0x401c9b]
+[epyc002:2763070] [ 4] ./main.x[0x402859]
+[epyc002:2763070] [ 5] ./main.x[0x402479]
+[epyc002:2763070] [ 6] ./main.x[0x401fe5]
+[epyc002:2763070] [ 7] ./main.x[0x40151e]
+[epyc002:2763070] [ 8] /lib64/libc.so.6(+0x29510)[0x153557c29510]
+[epyc002:2763070] [ 9] /lib64/libc.so.6(__libc_start_main+0x89)[0x153557c295c9]
+[epyc002:2763070] [10] ./main.x[0x401235]
+[epyc002:2763070] *** End of error message ***
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun noticed that process rank 4 with PID 2763073 on node epyc002 exited on signal 11 (Segmentation fault).
+--------------------------------------------------------------------------
