@@ -43,7 +43,7 @@ unsigned char should_live(unsigned const int k,  unsigned const long i, unsigned
             + world[((row + 1) % k) * k + ((col - 1 + k) % k)]      // bottom left
             + world[((row + 1) % k) * k + col]                      // bottom middle
             + world[((row + 1) % k) * k + ((col + 1) % k)];         // bottom right
-    // a cell becomes, or remains, alive if 2 to 3 cells in its neighborhood are alive;
-    return ((result == 275*2) || (result == 275*3)) ? (unsigned char) 255 : (unsigned char) 0;
+    result /= (*maxVal);
+    result = ((result == 2) || (result == 3)) ? *maxVal : 0;
+    return (unsigned char)result;
 }
-
