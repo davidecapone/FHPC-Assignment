@@ -24,9 +24,9 @@ export OMP_PLACES=cores
 export OMP_PROC_BIND=close
 export OMP_NUM_THREADS=12
 
-k=5           # playground size
+k=8           # playground size
 e=0           # evolution type, 0 ordered, 1 random
-n=3           # number of steps to be calculated
+n=4           # number of steps to be calculated
 s=1           # every how many steps take a snapshot (0 means only at the end)
 
 # run:
