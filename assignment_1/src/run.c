@@ -1,9 +1,14 @@
+/**
+* @file run.c
+* @brief This file contains the functions needed to run the program
+* @details 
+**/
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<omp.h>
 #include<time.h>
 #include<mpi.h>
-
 #include"run.h"
 #include"ordered_evolution.h"
 #include"static_evolution.h"

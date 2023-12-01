@@ -1,9 +1,14 @@
+/**
+* @file static_evolution.c
+* @brief This file contains the functions needed to perform the static evolution
+* @details 
+**/
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<omp.h>
 #include<time.h>
 #include<mpi.h>
-
 #include"static_evolution.h"
 #include"should_live.h"
 #include"read_write.h"
