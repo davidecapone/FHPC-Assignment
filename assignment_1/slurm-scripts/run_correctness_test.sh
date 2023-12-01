@@ -6,6 +6,7 @@
 #SBATCH --nodes=1
 #SBATCH --exclusive
 #SBATCH --time=02:00:00
+#SBATCH --output=/u/dssc/drsandro/fast/FHPC-Assignment/assignment_1/slurm.out/correctness_test_%j.out
 
 # number of MPI processes
 n_MPI_proc=12
@@ -14,7 +15,6 @@ module purge
 module load architecture/Intel
 module load openMPI/4.1.5/gnu/12.2.1 
 
-# remove main.x if it exists and all the .o files in obj/ directory
 make clean
 #make image
 make
@@ -22,7 +22,7 @@ make
 # set the environment variables
 export OMP_PLACES=cores
 export OMP_PROC_BIND=close
-export OMP_NUM_THREADS=8
+export OMP_NUM_THREADS=12
 
 k=5           # playground size
 e=0           # evolution type, 0 ordered, 1 random
