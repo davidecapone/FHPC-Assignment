@@ -200,4 +200,4 @@ void parallel_static(const char *fname, unsigned int k, unsigned const int n, un
     free(offset);
     free(lengths);
     return; 
-} // void parallel_static()
+}
