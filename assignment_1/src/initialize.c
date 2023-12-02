@@ -9,11 +9,8 @@
 #include<time.h>
 #include<omp.h>
 #include<mpi.h>
-
 #include "initialize.h"
 #include "read_write.h"
-
-// For measuring time
 
 #if defined(_OPENMP)
     #define CPU_TIME ({struct  timespec ts; clock_gettime( CLOCK_REALTIME, &ts ),\
@@ -21,24 +18,18 @@
     #define CPU_TIME_th ({struct  timespec myts; clock_gettime( CLOCK_THREAD_CPUTIME_ID, &myts ),\
 	    (double)myts.tv_sec + (double)myts.tv_nsec * 1e-9;})
 #else
-#define CPU_TIME ({struct  timespec ts; clock_gettime( CLOCK_PROCESS_CPUTIME_ID, &ts ),\
-    (double)ts.tv_sec + (double)ts.tv_nsec * 1e-9;})
+    #define CPU_TIME ({struct  timespec ts; clock_gettime( CLOCK_PROCESS_CPUTIME_ID, &ts ),\
+        (double)ts.tv_sec + (double)ts.tv_nsec * 1e-9;})
 #endif
 
-
-/*
-    initialize():   checks if the executable is runned on
-        one or more processes, then consequently calls the 
-        correct function to initialize the playground.
-    @param
-    fname:  name of the file that's going to be written 
-            to initialize the playground
-    k:      size of the squre matrix that's going to rapresent
-            the playground
-    t:      should print the time taken by the function
-*/
-void initialize(const char *fname, unsigned const int k, const int t)
-{
+/**
+* Checks if the executable is runned on one or more processes, 
+* then consequently calls the correct function to initialize the playground.
+* @param fname name of the file that's going to be written to initialize the playground
+* @param k size of the squre matrix that's going to rapresent the playground
+* @param t should print the time taken by the function
+**/
+void initialize(const char *fname, unsigned const int k, const int t) {
 
     int mpi_provided_thread_level;
     MPI_Init_thread(NULL, NULL, MPI_THREAD_FUNNELED, &mpi_provided_thread_level);
@@ -88,20 +79,14 @@ void initialize(const char *fname, unsigned const int k, const int t)
     } 
 }
 
-
-/*
-    initialize_serial():   initializes the playground
-        with a random configuration of cells and writes
-        the result to a file.
-        The probability of a cell to be alive is 15%.
-    @param
-    fname:  name of the file that's going to be written 
-            to initialize the playground
-    k:      size of the squre matrix that's going to rapresent
-            the playground
+/**
+* Initializes the playground with a random configuration of cells and 
+* and writes the result to a file.
+* The probability of a cell to be alive is 15%.
+* @param fname name of the file that's going to be written to initialize the playground
+* @param k size of the squre matrix that's going to rapresent the playground
 */
-void initialize_serial(const char *fname, unsigned const int k)
-{
+void initialize_serial(const char *fname, unsigned const int k) {
     char *world; 
     #pragma omp parallel shared(world, k, fname)
     {
@@ -118,23 +103,16 @@ void initialize_serial(const char *fname, unsigned const int k)
     return; 
 }
 
-
-/*
-    initialize_parallel():   initializes the playground
-        with a random configuration of cells and writes
-        the result to a file. The procedure is done in 
-        parallel.
-        The probability of a cell to be alive is 15%.
-    @param
-    fname:  name of the file that's going to be written 
-            to initialize the playground
-    k:      size of the squre matrix that's going to rapresent
-            the playground
-    rank:   rank of the process
-    size:   number of processes
+/**
+* Initializes the playground with a random configuration of cells 
+* and writes the result to a file. The procedure is done in parallel.
+* The probability of a cell to be alive is 15%.
+* @param fname name of the file that's going to be written to initialize the playground
+* @param k size of the squre matrix that's going to rapresent the playground
+* @param rank rank of the process
+* @param size number of processes
 */
-void initialize_parallel(const char *fname, unsigned const int k, int rank, int size)
-{
+void initialize_parallel(const char *fname, unsigned const int k, int rank, int size) {
     int seed = time(NULL);
     // int seed = 42;  // for testing purposes
     srand(seed);
@@ -157,4 +135,4 @@ void initialize_parallel(const char *fname, unsigned const int k, int rank, int 
     if (rank == 0)
         free(world);
     return;
-} // void initialze_parallel()
+}
