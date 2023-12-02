@@ -12,7 +12,7 @@
 n_MPI_proc=10
 
 module purge
-#module load architecture/Intel
+module load architecture/AMD
 module load openMPI/4.1.5/gnu/12.2.1 
 
 make clean
@@ -25,7 +25,7 @@ export OMP_PROC_BIND=close
 export OMP_NUM_THREADS=64
 
 k=5           # playground size
-e=1           # evolution type, 0 ordered, 1 static
+e=0           # evolution type, 0 ordered, 1 static
 n=3           # number of steps to be calculated
 s=1           # every how many steps take a snapshot (0 means only at the end)
 
