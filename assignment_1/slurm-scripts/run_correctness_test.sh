@@ -6,7 +6,7 @@
 #SBATCH --nodes=1
 #SBATCH --exclusive
 #SBATCH --time=02:00:00
-#SBATCH --output=/u/dssc/drsandro/fast/FHPC-Assignment/assignment_1/slurm.out/correctness_test_%j.out
+#SBATCH --output=/u/dssc/dcapone/fast/FHPC-Assignment/assignment_1/slurm.out/correctness_test_%j.out
 
 # number of MPI processes
 n_MPI_proc=10

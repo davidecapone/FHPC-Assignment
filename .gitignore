@@ -1,5 +1,9 @@
 .idea
 assignment_2/*.x
 .DS_Store
-assignment_2/slurm.out
+assignment_2/*.out
 assignment_1/.old
+assignment_1/*.x
+assignment_1/*.out
+assignment_1/slurm.out/*.out
+assignment_1/obj/*.o

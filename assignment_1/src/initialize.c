@@ -1,9 +1,14 @@
+/**
+* @file initialize.c
+* @brief This file contains the functions needed to initialize the playground
+* @details 
+**/
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
 #include<omp.h>
 #include<mpi.h>
-
 #include "initialize.h"
 #include "read_write.h"
 
