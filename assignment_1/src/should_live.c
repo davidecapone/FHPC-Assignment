@@ -30,6 +30,8 @@ unsigned char should_live(unsigned const int k,  unsigned const long i, unsigned
     return (unsigned char)result;
 }
 */
+
+
 unsigned char should_live(unsigned const int k,  unsigned const long i, unsigned const char *world, unsigned const int *maxVal)
 {
     int result = 0;   // char is not enough to store the first sum

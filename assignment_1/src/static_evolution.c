@@ -9,6 +9,7 @@
 #include<omp.h>
 #include<time.h>
 #include<mpi.h>
+
 #include"static_evolution.h"
 #include"should_live.h"
 #include"read_write.h"

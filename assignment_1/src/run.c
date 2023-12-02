@@ -9,6 +9,7 @@
 #include<omp.h>
 #include<time.h>
 #include<mpi.h>
+
 #include"run.h"
 #include"ordered_evolution.h"
 #include"static_evolution.h"
@@ -81,4 +82,3 @@ void run(const char *fname, unsigned const int k, unsigned const int n, unsigned
     }
     return;
 }
-

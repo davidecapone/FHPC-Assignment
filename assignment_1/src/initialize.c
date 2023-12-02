@@ -9,6 +9,7 @@
 #include<time.h>
 #include<omp.h>
 #include<mpi.h>
+
 #include "initialize.h"
 #include "read_write.h"
 
