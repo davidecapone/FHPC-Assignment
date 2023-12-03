@@ -39,13 +39,13 @@ unsigned int *smaxVal = &smval;
 * @param rank rank of the process
 * @param size number of processes
 */
-void run_static(const char *fname, unsigned int k, unsigned const int n, unsigned int s, int rank, int size, const int t) {
+void run_static(const char *fname, unsigned int k, unsigned const int n, unsigned int s, int rank, int size) {
     if (size > 1) {   
         double start = CPU_TIME;
         parallel_static(fname, k, n, s, rank, size);
         double end = CPU_TIME;
         if (rank == 0)
-            printf(",%f\n", end-start);
+            printf(",%f\n", end-start); // only the master process prints the execution time
         MPI_Finalize();
         return;
     } else {
@@ -56,53 +56,6 @@ void run_static(const char *fname, unsigned int k, unsigned const int n, unsigne
         printf(",%f\n", end-start);
         return;
     }
-}
-
-/**
-* Performs the static evolution of the playground and saves the result to a file.
-* This function is called only if the program is executed on a single process.
-* @param fname name of the file containing the initial state of the playground
-* @param k size of the squre matrix that's going to rapresent the playground
-* @param n number of generations must be computed
-* @param s every how many generations save a snapshot
-*/
-void serial_static(const char *fname, unsigned int k, unsigned const int n, unsigned int s) {
-    
-    // read the initial state of the playground from the file
-    unsigned char *yesterday; 
-    unsigned char *today;
-    yesterday = malloc(k*k*sizeof(char));
-    read_pbm((void**)&yesterday, smaxVal, &k, &k, fname);
-    
-    for (unsigned int day = 0; day < n; day++) {
-        today = malloc(k*k*sizeof(char));
-        // compute the evolution of the playground and
-        // decide if a cell should alive or dead
-        #pragma omp parallel for schedule(static)
-        for (unsigned long i = 0; i < k*k; i++)
-            today[i] = should_live(k, i, yesterday, smaxVal);
-        unsigned char *tmp = yesterday;
-        yesterday = today;
-        today = tmp;
-        free(today);
-        // check if it's time to save a snapshot of the playground
-        if (s==0)
-            continue;
-        if (day%s == 0)
-        {
-            char *snapname = malloc(31*sizeof(char)); // 25 = length of "snaps/snapshot_%06d.pbm"
-            sprintf(snapname, "snaps/snapshot_%06d.pbm", day);
-            write_pbm((void*)yesterday, smval, k, k, snapname);
-            free(snapname);
-        }
-        
-    } // for (unsigned int day = 0; day < n; day+)
-    char *filename = malloc (21*sizeof(char));
-    sprintf(filename, "game_of_life_END.pbm");
-    write_pbm((void*)yesterday, smval, k, k, filename);
-    free(filename);
-    free(yesterday);
-    return;
 }
 
 /**
@@ -185,4 +138,51 @@ void parallel_static(const char *fname, unsigned int k, unsigned const int n, un
     free(offset);
     free(lengths);
     return; 
+}
+
+/**
+* Performs the static evolution of the playground and saves the result to a file.
+* This function is called only if the program is executed on a single process.
+* @param fname name of the file containing the initial state of the playground
+* @param k size of the squre matrix that's going to rapresent the playground
+* @param n number of generations must be computed
+* @param s every how many generations save a snapshot
+*/
+void serial_static(const char *fname, unsigned int k, unsigned const int n, unsigned int s) {
+    
+    // read the initial state of the playground from the file
+    unsigned char *yesterday; 
+    unsigned char *today;
+    yesterday = malloc(k*k*sizeof(char));
+    read_pbm((void**)&yesterday, smaxVal, &k, &k, fname);
+    
+    for (unsigned int day = 0; day < n; day++) {
+        today = malloc(k*k*sizeof(char));
+        // compute the evolution of the playground and
+        // decide if a cell should alive or dead
+        #pragma omp parallel for schedule(static)
+        for (unsigned long i = 0; i < k*k; i++)
+            today[i] = should_live(k, i, yesterday, smaxVal);
+        unsigned char *tmp = yesterday;
+        yesterday = today;
+        today = tmp;
+        free(today);
+        // check if it's time to save a snapshot of the playground
+        if (s==0)
+            continue;
+        if (day%s == 0)
+        {
+            char *snapname = malloc(31*sizeof(char)); // 25 = length of "snaps/snapshot_%06d.pbm"
+            sprintf(snapname, "snaps/snapshot_%06d.pbm", day);
+            write_pbm((void*)yesterday, smval, k, k, snapname);
+            free(snapname);
+        }
+        
+    } // for (unsigned int day = 0; day < n; day+)
+    char *filename = malloc (21*sizeof(char));
+    sprintf(filename, "game_of_life_END.pbm");
+    write_pbm((void*)yesterday, smval, k, k, filename);
+    free(filename);
+    free(yesterday);
+    return;
 }

@@ -63,7 +63,7 @@ void run(const char *fname, unsigned const int k, unsigned const int n, unsigned
         }
     }
     else { // e==1
-        run_static(fname, k, n, s, rank, size, t);
+        run_static(fname, k, n, s, rank, size);
         return;
     }
     
