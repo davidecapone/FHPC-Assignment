@@ -33,7 +33,7 @@ void run_ordered(const char *fname, unsigned int k, unsigned const int n, unsign
     
     // read the initial state of the playground from the file
     unsigned char *world; 
-    world = malloc(k*k*sizeof(char));
+    world = malloc(k*k*sizeof(unsigned char));
     read_pbm((void**)&world, omaxVal, &k, &k, fname);
     for(unsigned int day = 0; day < n; day++)
     {
