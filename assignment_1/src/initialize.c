@@ -44,7 +44,7 @@ void initialize(const char *fname, unsigned const int k, const int t) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     if (t==0)
     {
-        if (size == 1)
+        if (size == 1) // size is the number of MPI processes TODO: change variable names
         {
             MPI_Finalize();
             initialize_serial(fname, k);

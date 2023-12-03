@@ -38,38 +38,23 @@ unsigned int *smaxVal = &smval;
 * @param s every how many generations save a snapshot
 * @param rank rank of the process
 * @param size number of processes
-* @param t should print the time taken by the function
 */
 void run_static(const char *fname, unsigned int k, unsigned const int n, unsigned int s, int rank, int size, const int t) {
     if (size > 1) {   
-        if (t == 0) {
-            parallel_static(fname, k, n, s, rank, size);
-            MPI_Finalize();
-            return;
-
-        } else {    // t == 1
-            double start = CPU_TIME;
-            parallel_static(fname, k, n, s, rank, size);
-            double end = CPU_TIME;
-            if (rank == 0)
-                printf(",%f\n", end-start);
-            MPI_Finalize();
-            return;
-        }
-    } else {        // size == 1
-        if (t ==0) {
-            MPI_Finalize();
-            serial_static(fname, k, n, s);
-            return;
-        }
-        else {      // t == 1
-            double start = CPU_TIME;
-            MPI_Finalize();
-            serial_static(fname, k, n, s);
-            double end = CPU_TIME;
+        double start = CPU_TIME;
+        parallel_static(fname, k, n, s, rank, size);
+        double end = CPU_TIME;
+        if (rank == 0)
             printf(",%f\n", end-start);
-            return;
-        }
+        MPI_Finalize();
+        return;
+    } else {
+        double start = CPU_TIME;
+        MPI_Finalize();
+        serial_static(fname, k, n, s);
+        double end = CPU_TIME;
+        printf(",%f\n", end-start);
+        return;
     }
 }
 
