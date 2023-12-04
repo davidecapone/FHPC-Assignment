@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (action == INITIALIZE) initialize(fname, k, t);
-    if (action == RUN) run(fname, k, n, s, e, t);
+    if (action == RUN) run(fname, k, n, s, e);
     free(fname);
 
     return 0;

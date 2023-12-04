@@ -31,9 +31,8 @@
 * @param n number of generations must be computed
 * @param s every how many generations save a snapshot
 * @param e 0: ordered, 1: static evolution
-* @param t should print the time taken by the function
 */
-void run(const char *fname, unsigned const int k, unsigned const int n, unsigned const int s, const char e, const int t) {
+void run(const char *fname, unsigned const int k, unsigned const int n, unsigned const int s, const char e) {
     int mpi_provided_thread_level;
     MPI_Init_thread(NULL, NULL, MPI_THREAD_FUNNELED, &mpi_provided_thread_level);
 
@@ -48,19 +47,13 @@ void run(const char *fname, unsigned const int k, unsigned const int n, unsigned
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
     if (e==0) {   
-        if (t == 0) {
-            MPI_Finalize();
-            run_ordered(fname, k, n, s);
-            return;
-        } else {    // t==1
-            double start = CPU_TIME;
-            MPI_Finalize();
-            run_ordered(fname, k, n, s);
-            double end = CPU_TIME;
-            if (rank == 0)
-                printf(",%f\n", end-start);
-            return;
-        }
+        double start = CPU_TIME;
+        MPI_Finalize();
+        run_ordered(fname, k, n, s);
+        double end = CPU_TIME;
+        if (rank == 0)
+            printf(",%f\n", end-start);
+        return;
     }
     else { // e==1
         run_static(fname, k, n, s, rank, size);
