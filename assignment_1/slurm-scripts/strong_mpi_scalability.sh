@@ -1,16 +1,15 @@
 #!/bin/bash
 #SBATCH --no-requeue
-#SBATCH --job-name="MPI-s_scalability"
+#SBATCH --job-name="strong_MPI_scalability"
 #SBATCH --get-user-env
-#SBATCH --partition=THIN
+#SBATCH --partition=EPYC
 #SBATCH --nodes=2
 #SBATCH --exclusive
 #SBATCH --time=02:00:00
+#SBATCH --output=/u/dssc/drsandro/fast/FHPC-Assignment/assignment_1/slurm.out/strong_MPI_scal_%j.out
 
-module load architecture/Intel
 module load openMPI/4.1.5/gnu/12.2.1
 
-ls
 make clean
 make clean_images
 make
@@ -24,17 +23,16 @@ k=10000
 evolution=0
 
 ./main.x -i -k $k
-dir=results
 
-echo size,cores,time > $dir/strong_mpi_scal_ordered_ev_size$k.csv
+echo size,cores,time > results/strong_MPI_ordered_$k.csv
 
 
 for i in {1..24}
 do
     for j in {1..5}
     do
-        echo -n $k,$i >> $dir/strong_mpi_scal_ordered_ev_size$k.csv
-	mpirun -np $i --map-by core ./main.x -r -n 10 -e $evolution -t >> $dir/strong_mpi_scal_ordered_ev_size$k.csv
+        echo -n $k,$i >> results/strong_MPI_ordered_$k.csv
+	mpirun -np $i --map-by core ./main.x -r -n 10 -e $evolution -t >> results/strong_MPI_ordered_$k.csv
     done
 done
 
