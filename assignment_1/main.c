@@ -19,7 +19,6 @@
 #define K_DEFAULT 100                   // for -k : plyaground size
 #define N_DEFAULT 10                    // for -n : number of generations
 #define S_DEFAULT 0                     // for -s : every how many generations save a snapshot
-#define TIME_DEFAULT 0                  // for -t : should measure time or not
 #define F_DEFAULT "game_of_life.pbm"    // for -f : file name
 
 char action, e; 
@@ -27,10 +26,9 @@ unsigned int k = K_DEFAULT;
 unsigned int n = N_DEFAULT;
 unsigned int s = S_DEFAULT;
 char *fname = NULL;
-int t = TIME_DEFAULT;
 
 int main(int argc, char *argv[]) {
-    char* optstring = "irk:e:f:n:s:t";    
+    char* optstring = "irk:e:f:n:s:";    
     int c; 
 
     while ((c = getopt(argc, argv, optstring)) != -1) {
@@ -56,9 +54,6 @@ int main(int argc, char *argv[]) {
                 break;
             case 's':
                 s = atoi(optarg);
-                break;
-            case 't':
-                t = 1; 
                 break;
             default :
                 printf("argument -%c not known\n", c );
