@@ -82,8 +82,8 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    if (action == INITIALIZE) initialize(fname, k, t);
-    if (action == RUN) run(fname, k, n, s, e);
+    if (action == INITIALIZE) initialize(fname, k);  // ! removed t arg from here !
+    if (action == RUN) run(fname, k, n, s, e);       // ! removed t arg from here !
     free(fname);
 
     return 0;

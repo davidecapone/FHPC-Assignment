@@ -46,19 +46,16 @@ void run(const char *fname, unsigned const int k, unsigned const int n, unsigned
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    if (e==0) {   
+    if (e==0) {
         double start = CPU_TIME;
         MPI_Finalize();
         run_ordered(fname, k, n, s);
         double end = CPU_TIME;
-        if (rank == 0)
-            printf(",%f\n", end-start);
+        if (rank == 0) printf(",%f\n", end-start);
         return;
-    }
-    else { // e==1
+    } else { // e==1
         run_static(fname, k, n, s, rank, size);
         return;
     }
-    
     return;
 }

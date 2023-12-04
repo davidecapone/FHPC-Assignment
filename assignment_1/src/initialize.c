@@ -27,56 +27,37 @@
 * then consequently calls the correct function to initialize the playground.
 * @param fname name of the file that's going to be written to initialize the playground
 * @param k size of the squre matrix that's going to rapresent the playground
-* @param t should print the time taken by the function
 **/
-void initialize(const char *fname, unsigned const int k, const int t) {
+void initialize(const char *fname, unsigned const int k) {          // ! removed t arg from here !
 
     int mpi_provided_thread_level;
     MPI_Init_thread(NULL, NULL, MPI_THREAD_FUNNELED, &mpi_provided_thread_level);
-    if ( mpi_provided_thread_level < MPI_THREAD_FUNNELED ) 
-    {
+    if ( mpi_provided_thread_level < MPI_THREAD_FUNNELED ) {
         printf("Error: MPI thread support is lower than the demanded\n");
         MPI_Finalize();
         exit(1);
     }
+
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
-    if (t==0)
-    {
-        if (size == 1) // size is the number of MPI processes TODO: change variable names
-        {
-            MPI_Finalize();
-            initialize_serial(fname, k);
-            return; 
-        }
-        else
-        {
-            initialize_parallel(fname, k, rank, size);
-            MPI_Finalize();
-            return;
-        }
-    } 
-    else // t==1
-    if (size == 1)
-    {
+
+    // ! removed the t condition from here !
+    if (size == 1) {
         MPI_Finalize();
         double start = CPU_TIME;
         initialize_serial(fname, k);
         double end = CPU_TIME;
         printf(",%f\n", end-start);
-        return; 
-    }
-    else
-    {
+        return;
+    } else {
         double start = CPU_TIME;
         initialize_parallel(fname, k, rank, size);
         double end = CPU_TIME;
-        if (rank == 0)
-            printf(",%f\n", end-start);
+        if (rank == 0) printf(",%f\n", end-start);
         MPI_Finalize();
         return;
-    } 
+    }
 }
 
 /**
