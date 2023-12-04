@@ -12,16 +12,6 @@
 #include "initialize.h"
 #include "read_write.h"
 
-#if defined(_OPENMP)
-    #define CPU_TIME ({struct  timespec ts; clock_gettime( CLOCK_REALTIME, &ts ),\
-	    (double)ts.tv_sec + (double)ts.tv_nsec * 1e-9;})
-    #define CPU_TIME_th ({struct  timespec myts; clock_gettime( CLOCK_THREAD_CPUTIME_ID, &myts ),\
-	    (double)myts.tv_sec + (double)myts.tv_nsec * 1e-9;})
-#else
-    #define CPU_TIME ({struct  timespec ts; clock_gettime( CLOCK_PROCESS_CPUTIME_ID, &ts ),\
-        (double)ts.tv_sec + (double)ts.tv_nsec * 1e-9;})
-#endif
-
 /**
 * Checks if the executable is runned on one or more processes, 
 * then consequently calls the correct function to initialize the playground.
@@ -45,16 +35,10 @@ void initialize(const char *fname, unsigned const int k) {          // ! removed
     // ! removed the t condition from here !
     if (size == 1) {
         MPI_Finalize();
-        double start = CPU_TIME;
         initialize_serial(fname, k);
-        double end = CPU_TIME;
-        printf(",%f\n", end-start);
         return;
     } else {
-        double start = CPU_TIME;
         initialize_parallel(fname, k, rank, size);
-        double end = CPU_TIME;
-        if (rank == 0) printf(",%f\n", end-start);
         MPI_Finalize();
         return;
     }
