@@ -13,12 +13,13 @@
 #include "read_write.h"
 
 /**
-* Checks if the executable is runned on one or more processes, 
-* then consequently calls the correct function to initialize the playground.
-* @param fname name of the file that's going to be written to initialize the playground
-* @param k size of the squre matrix that's going to rapresent the playground
+* Checks if the executable is runned on one or more processes:
+* - if one, call serial initialization
+* - if more than one, call parallel initialization
+* @param fname name of the file that's going to be written to store the initial game field
+* @param k size of the game field
 **/
-void initialize(const char *fname, unsigned const int k) {          // ! removed t arg from here !
+void initialize(const char *fname, unsigned const int k) {
 
     int mpi_provided_thread_level;
     MPI_Init_thread(NULL, NULL, MPI_THREAD_FUNNELED, &mpi_provided_thread_level);
@@ -32,8 +33,7 @@ void initialize(const char *fname, unsigned const int k) {          // ! removed
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    // ! removed the t condition from here !
-    if (size == 1) {
+    if (size == 1) { // i.e. serial execution
         MPI_Finalize();
         initialize_serial(fname, k);
         return;
@@ -45,11 +45,10 @@ void initialize(const char *fname, unsigned const int k) {          // ! removed
 }
 
 /**
-* Initializes the playground with a random configuration of cells and 
-* and writes the result to a file.
+* Initializes the game field randomly and writes the result to a file.
 * The probability of a cell to be alive is 15%.
-* @param fname name of the file that's going to be written to initialize the playground
-* @param k size of the squre matrix that's going to rapresent the playground
+* @param fname name of the file that's going to be written to store the initial game field
+* @param k size of the game field
 */
 void initialize_serial(const char *fname, unsigned const int k) {
     char *world; 
@@ -57,7 +56,6 @@ void initialize_serial(const char *fname, unsigned const int k) {
     {
         world = (char *)malloc(k*k*sizeof(char));
         int seed = time(NULL);
-        // int seed = 42;  // for testing purposes
         srand(seed);
         #pragma omp parallel for schedule(static) shared(world, k)
             for (unsigned long i = 0; i < k*k; i++)
@@ -69,17 +67,15 @@ void initialize_serial(const char *fname, unsigned const int k) {
 }
 
 /**
-* Initializes the playground with a random configuration of cells 
-* and writes the result to a file. The procedure is done in parallel.
+* Initializes the game field randomly and writes the result to a file, in parallel.
 * The probability of a cell to be alive is 15%.
-* @param fname name of the file that's going to be written to initialize the playground
-* @param k size of the squre matrix that's going to rapresent the playground
+* @param fname name of the file that's going to be written to store the initial game field
+* @param k size of the game field
 * @param rank rank of the process
 * @param size number of processes
 */
 void initialize_parallel(const char *fname, unsigned const int k, int rank, int size) {
     int seed = time(NULL);
-    // int seed = 42;  // for testing purposes
     srand(seed);
     unsigned int std_chunk, chunk;
     std_chunk = (k*k)/size;
@@ -89,10 +85,9 @@ void initialize_parallel(const char *fname, unsigned const int k, int rank, int 
     #pragma omp parallel for schedule(static) shared(local_world, chunk)
         for (unsigned long i = 0; i < chunk; i++)
             local_world[i] = rand() % 100 < 15 ? 255 : 0;
-    if (rank == 0)
+    if (rank == 0) // i.e. the master process
         world = (char *)malloc(k*k*sizeof(char));
     MPI_Barrier(MPI_COMM_WORLD);
-    // needed because the read_pbm requires a pointer to an int
     MPI_Gather(local_world, chunk, MPI_CHAR, world, chunk, MPI_CHAR, 0, MPI_COMM_WORLD);
     if (rank == 0)
         write_pbm(world, 255, k, k, fname);

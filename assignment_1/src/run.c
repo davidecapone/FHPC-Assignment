@@ -25,12 +25,12 @@
 #endif
 
 /**
-* Check what kind of evolution is required (-e option) and then calls the correct function.
-* @param fname name of the file containing the initial state of the playground
-* @param k size of the squre matrix that's going to rapresent the playground
-* @param n number of generations must be computed
-* @param s every how many generations save a snapshot
-* @param e 0: ordered, 1: static evolution
+* Check what kind of evolution is required and then call the corresponding function.
+* @param fname name of the file containing the initial game field
+* @param k size of the game field
+* @param n number of iterations
+* @param s step to save a snapshot
+* @param e 0: ordered evolution, 1: static evolution
 */
 void run(const char *fname, unsigned const int k, unsigned const int n, unsigned const int s, const char e) {
     int mpi_provided_thread_level;
@@ -46,14 +46,14 @@ void run(const char *fname, unsigned const int k, unsigned const int n, unsigned
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    if (e==0) {
+    if (e==0) { // ordered evolution
         double start = CPU_TIME;
         MPI_Finalize();
         run_ordered(fname, k, n, s);
         double end = CPU_TIME;
         if (rank == 0) printf(",%f\n", end-start);
         return;
-    } else { // e==1
+    } else { // static evolution
         run_static(fname, k, n, s, rank, size);
         return;
     }

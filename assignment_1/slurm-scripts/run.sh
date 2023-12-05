@@ -2,14 +2,14 @@
 #SBATCH --no-requeue
 #SBATCH --job-name="conw_test"
 #SBATCH --get-user-env
-#SBATCH --partition=THIN
+#SBATCH --partition=EPYC
 #SBATCH --nodes=1
 #SBATCH --exclusive
 #SBATCH --time=02:00:00
 #SBATCH --output=/u/dssc/drsandro/fast/FHPC-Assignment/assignment_1/slurm.out/correctness_test_%j.out
 
 # number of MPI processes
-n_MPI_proc=5
+n_MPI_proc=10
 
 module purge
 module load openMPI/4.1.5/gnu/12.2.1 
@@ -21,7 +21,7 @@ make
 # set the environment variables
 export OMP_PLACES=cores
 export OMP_PROC_BIND=close
-export OMP_NUM_THREADS=12
+export OMP_NUM_THREADS=64
 
 k=5           # playground size
 e=1           # evolution type, 0 ordered, 1 static

@@ -2,7 +2,7 @@
 #SBATCH --no-requeue
 #SBATCH --job-name="strong_MPI_scalability"
 #SBATCH --get-user-env
-#SBATCH --partition=THIN
+#SBATCH --partition=EPYC
 #SBATCH --nodes=2
 #SBATCH --exclusive
 #SBATCH --time=02:00:00
@@ -18,34 +18,19 @@ export OMP_PLACES=cores
 export OMP_PROC_BIND=close
 export OMP_NUM_THREADS=1
 
-k=10000
-evolution=0
+k=10000     # size of the matrix (10000, 20000)
+e=0         # evolution type (0, 1)
 
 mpirun -np 2 ./main.x -i -k $k
 
-echo size,cores,time > results/strong_MPI_ordered.csv
+echo size,cores,time > results/strong_MPI_ordered_$k.csv # remember to change the name of the file for each test
 
-for i in {1..24}
+for i in {1..128}
 do
     for j in {1..10}
     do
-        echo -n $k,$i >> results/strong_MPI_ordered.csv
-	    mpirun -np $i --map-by core ./main.x -r -n 10 -e $evolution -t >> results/strong_MPI_ordered.csv
-    done
-done
-
-make clean_images
-
-k=20000
-
-mpirun -np 2 ./main.x -i -k $k
-
-for i in {1..24}
-do
-    for j in {1..10}
-    do
-        echo -n $k,$i >> results/strong_MPI_ordered.csv
-	    mpirun -np $i --map-by core ./main.x -r -n 10 -e $evolution -t >> results/strong_MPI_ordered.csv
+        echo -n $k,$i >> results/strong_MPI_ordered_$k.csv
+	    mpirun -np $i --map-by core ./main.x -r -n 10 -e $e -t >> results/strong_MPI_ordered_$k.csv
     done
 done
 

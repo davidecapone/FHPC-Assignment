@@ -17,46 +17,40 @@ unsigned int omval;
 unsigned int *omaxVal = &omval;
 
 /**
-* Performs the ordered evolution of the playground and saves the result to a file.
-* - ordered evolution means that the evolution of the playground is computed 
-*   evaluating the next state of a cell and updating it before 
-*   moving to the next cell.
-* - the ordered evolution can be performed only in serial for the point of view of MPI.
-* @param fname name of the file containing the initial state of the playground
-* @param k size of the squre matrix that's going to rapresent the playground
-* @param n number of generations must be computed
-* @param s every how many generations save a snapshot
-* @param rank rank of the process
-* @param size number of processes
+* Performs the ordered evolution method and saves the result to a file.
+* - ordered evolution: the state of each cell is updated before moving to the next cell.
+* @param fname name of the file that's going to be written to store the initial game field
+* @param k size of the game field
+* @param n number of iterations
+* @param s every how many iterations save a snapshot
 */
 void run_ordered(const char *fname, unsigned int k, unsigned const int n, unsigned const int s) {
     
-    // read the initial state of the playground from the file
+    // load game field initialization
     unsigned char *world; 
     world = malloc(k*k*sizeof(unsigned char));
     read_pbm((void**)&world, omaxVal, &k, &k, fname);
-    for(unsigned int day = 0; day < n; day++)
-    {
+    for(unsigned int iter = 0; iter < n; iter++) {
         
-        // compute the evolution of the playground and 
-        // decide if a cell should alive or dead
+        // check if the cells are alive or dead
         #pragma omp parallel for schedule(static)
         for (unsigned long i = 0; i < k*k; i++)
             world[i] = should_live(k, i, world, omaxVal);
         
-        // check if it's time to save a snapshot of the playground
-        if (s==0)
+        // check if it's time to take a snapshot
+        if (s==0) {
             continue;
+        }            
 
-        if (day%s == 0) {
-            // save a snapshot of the playground
-            char *snapname = malloc(31*sizeof(char)); // 31 = length of "snaps/snapshot_%06d.pbm"
-            sprintf(snapname, "snaps/snapshot_%06d.pbm", day); 
+        if (iter%s == 0) {
+            char *snapname = malloc(31*sizeof(char));
+            sprintf(snapname, "snaps/snapshot_%06d.pbm", iter); 
             write_pbm((void*)world, omval, k, k, snapname);
             free(snapname);
         }
     }
 
+    // save final snapshot
     char *filename = malloc (21*sizeof(char));
     sprintf(filename, "game_of_life_END.pbm");
     write_pbm((void*)world, omval, k, k, filename);

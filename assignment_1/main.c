@@ -12,14 +12,14 @@
 #include "initialize.h"
 #include "run.h"
 
-#define INITIALIZE 1                    // for -i / -r : initialize or run
-#define RUN 2
+#define INITIALIZE 1                    // for -i: initialize
+#define RUN 2                           // for -r : run
 #define ORDERED 0                       // for -e : ordered or static evolution
 #define STATIC 1
-#define K_DEFAULT 100                   // for -k : plyaground size
-#define N_DEFAULT 10                    // for -n : number of generations
-#define S_DEFAULT 0                     // for -s : every how many generations save a snapshot
-#define F_DEFAULT "game_of_life.pbm"    // for -f : file name
+#define K_DEFAULT 100                   // for -k : game field size
+#define N_DEFAULT 10                    // for -n : number of iterations
+#define S_DEFAULT 0                     // for -s : step to save a snapshot
+#define F_DEFAULT "game_of_life.pbm"    // for -f : initial game field file name
 
 char action, e; 
 unsigned int k = K_DEFAULT;
@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
                 e = atoi(optarg);
                 break;
             case 'f':
-                fname = (char*)malloc(25*sizeof(char)); //should be enough
+                fname = (char*)malloc(25*sizeof(char));
                 sprintf(fname, "%s", optarg);
                 break;
             case 'n':
@@ -77,8 +77,8 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    if (action == INITIALIZE) initialize(fname, k);  // ! removed t arg from here !
-    if (action == RUN) run(fname, k, n, s, e);       // ! removed t arg from here !
+    if (action == INITIALIZE) initialize(fname, k);
+    if (action == RUN) run(fname, k, n, s, e);
     free(fname);
 
     return 0;
