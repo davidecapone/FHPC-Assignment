@@ -23,14 +23,14 @@ evolution=0
 
 mpirun -np 2 ./main.x -i -k $k
 
-echo size,cores,time > results/strong_MPI_ordered_$k.csv
+echo size,cores,time > results/strong_MPI_ordered.csv
 
 for i in {1..24}
 do
     for j in {1..10}
     do
-        echo -n $k,$i >> results/strong_MPI_ordered_$k.csv
-	    mpirun -np $i --map-by core ./main.x -r -n 10 -e $evolution -t >> results/strong_MPI_ordered_$k.csv
+        echo -n $k,$i >> results/strong_MPI_ordered.csv
+	    mpirun -np $i --map-by core ./main.x -r -n 10 -e $evolution -t >> results/strong_MPI_ordered.csv
     done
 done
 
@@ -44,8 +44,8 @@ for i in {1..24}
 do
     for j in {1..10}
     do
-        echo -n $k,$i >> results/strong_MPI_ordered_$k.csv
-	    mpirun -np $i --map-by core ./main.x -r -n 10 -e $evolution -t >> results/strong_MPI_ordered_$k.csv
+        echo -n $k,$i >> results/strong_MPI_ordered.csv
+	    mpirun -np $i --map-by core ./main.x -r -n 10 -e $evolution -t >> results/strong_MPI_ordered.csv
     done
 done
 
