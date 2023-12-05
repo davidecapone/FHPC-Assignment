@@ -10,7 +10,7 @@
 #include<omp.h>
 #include<mpi.h>
 #include"ordered_evolution.h"
-#include"should_live.h"
+#include"check_cell_state.h"
 #include"read_write.h"
 
 unsigned int omval;                   
@@ -35,7 +35,7 @@ void run_ordered(const char *fname, unsigned int k, unsigned const int n, unsign
         // check if the cells are alive or dead
         #pragma omp parallel for schedule(static)
         for (unsigned long i = 0; i < k*k; i++)
-            world[i] = should_live(k, i, world, omaxVal);
+            world[i] = check_cell_state(k, i, world, omaxVal);
         
         // check if it's time to take a snapshot
         if (s==0) {

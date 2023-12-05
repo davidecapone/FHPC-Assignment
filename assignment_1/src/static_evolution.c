@@ -10,7 +10,7 @@
 #include<time.h>
 #include<mpi.h>
 #include"static_evolution.h"
-#include"should_live.h"
+#include"check_cell_state.h"
 #include"read_write.h"
 
 #if defined(_OPENMP)
@@ -96,7 +96,7 @@ void parallel_static(const char *fname, unsigned int k, unsigned const int n, un
         // Each process computes the evolution of its chunk, then sends the result to all the other processes
         #pragma omp parallel for schedule(static)
         for (unsigned long i = 0; i < lengths[rank]; i++)
-            my_partial_result[i] = should_live(k, i+offset[rank], world, smaxVal);
+            my_partial_result[i] = check_cell_state(k, i+offset[rank], world, smaxVal);
 
         MPI_Allgatherv((void *)my_partial_result, lengths[rank], MPI_UNSIGNED_CHAR, (void *)world, (int *)lengths, (int *)offset, MPI_UNSIGNED_CHAR, MPI_COMM_WORLD);
 
@@ -145,7 +145,7 @@ void serial_static(const char *fname, unsigned int k, unsigned const int n, unsi
         // check if the cells should be alive or dead
         #pragma omp parallel for schedule(static)
         for (unsigned long i = 0; i < k*k; i++)
-            curr_state[i] = should_live(k, i, prev_state, smaxVal);
+            curr_state[i] = check_cell_state(k, i, prev_state, smaxVal);
         unsigned char *tmp = prev_state;
         prev_state = curr_state;
         curr_state = tmp;
