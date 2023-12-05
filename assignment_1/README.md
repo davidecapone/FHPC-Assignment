@@ -11,25 +11,49 @@ A parallel implementation of the Conway's Game of Life using the C programming l
 - [`obj/`](/assignment_1/obj/): the folder that contains the object files, created during the compilation;
 - [`results/`](/assignment_1/results/): the folder that conatins the results for the scalabililty test in csv format.
 - [`slurm-scripts/`](/assignment_1/slurm-scripts/): the folder that contains the following slurm scripts:
-  - [`omp_scalability.sh`](/assignment_1/slurm-scripts/omp_scalability.sh): 
-  - [`run.sh`](/assignment_1/slurm-scripts/run.sh):
-  - [`strong_mpi_scalability.sh`](/assignment_1/slurm-scripts/strong_mpi_scalability.sh):
-- [`slurm.out/`](/assignment_1/slurm.out/):
-- [`snaps/`](/assignment_1/snaps/):
-- [`src/`](/assignment_1/src/):
+  - [`omp_scalability.sh`](/assignment_1/slurm-scripts/omp_scalability.sh): the bash file used to run the OpenMP scalability tests;
+  - [`run.sh`](/assignment_1/slurm-scripts/run.sh): the bash file used to run the correctness tests;
+  - [`strong_mpi_scalability.sh`](/assignment_1/slurm-scripts/strong_mpi_scalability.sh): the bash file used to run the strong MPI scalability tests;
+- [`slurm.out/`](/assignment_1/slurm.out/): the folder that contains the slurm jobs output;
+- [`snaps/`](/assignment_1/snaps/): the folder that contains the snapshots of the game;
+- [`src/`](/assignment_1/src/): the folder that conatins all the functions that are needed to run the program.
 
+## How to compile the code
+The compilation of the code is done by calling `Makefile` with the `make` command. 
 
+#### Compiling on the Orfeo cluster
 
+To compile the code on the Orfeo cluster, first of all, the module which contains the `Open MPI` library and the GNU compiler has to be loaded. 
 
-
-In order to run the game with your custom settings, you can modify the file `slurm-scripts/run.sh` and then easily run it with the `sbatch` command:
-
+```bash
+module load openMPI/4.1.5/gnu/12.2.1
+srun -N1 -p EPYC make
 ```
-sbatch slurm-script/run.sh
-```
+The `main.x` executable is then created in the current directory.
 
-In the `run.sh` file you choose all the arguments to pass at the `main.c` program. 
-All the possible arguments are the following:
+The `Makefile` can also accept the following options:
+
+- `make clean`: removes the `main.x` executable and all the `.o` object files in the `obj/` directory.
+- `make clean_images`: deletes all the `.pbm` files in the current directory and in the `snaps/` directory. 
+
+## How to run the code
+
+To run the code, three options are available:
+-   ```bash
+    sbatch slurm-scripts/run.sh
+    ```
+    to test the correctness of the Game of Life implementation;
+-   ```bash
+    sbatch slurm-scripts/omp_scalability.sh
+    ```
+    to perform a scalability test for OpenMP;
+-   ```bash
+    sbatch slurm-scripts/strong_mpi_scalability.sh
+    ```
+    to perform a strong MPI scalability test.
+
+
+The `main.x` executable can be runned with the following arguments:
 
 | Argument | Description                                                                                                                                                                                                                                                                                                                                               |
 |----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -39,14 +63,4 @@ All the possible arguments are the following:
 | -e       | This flag is used to specify the evolution type, two options are possible: -0: with the ordered evolution method, the cells will be updated sequentially following row-major order -1: with the static evolution method, the next state will be computed for all the cells at once, and only at the end of each iteration the update will be carried out. |
 | -f       | This flag is used to specify the name of the initial file: if it is used in combination with the -i file, it will specify the name of the file where the random initialization is saved, otherwise (with the -r flag) it will specify the file where the initial configuration has to be retrieved (default: game_of_life.pbm).                           |
 | -n       | This flag is used to specify the number of iterations (default: 10).                                                                                   |
-| -s       | This flag is used to specify the frequency at which the snapshots of the game field will be taken, the value 0 means that only the final step will be dumped as a snapshot (default: 0).                                                                                                                         
-## Content of this directory
-
-- [main.c](main.c)
-- [MakeFile](Makefile)
-- [slurm-scripts](slurm-scripts)
-- [src/](src)
-- [obj/](obj)
-- [include/](include)
-- [snaps/](snaps)
-- [results/](results)
+| -s       | This flag is used to specify the frequency at which the snapshots of the game field will be taken, the value 0 means that only the final step will be dumped as a snapshot (default: 0).                                                                                                                        
