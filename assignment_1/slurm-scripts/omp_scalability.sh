@@ -35,14 +35,11 @@ do
 	done
 done
 
-make clean
 make clean_images
 
 k=20000
 
 mpirun -np 2 ./main.x -i -k $k
-
-echo size,OMP-threads,time > results/omp_ordered.csv
 
 for i in {1..64}
 do
