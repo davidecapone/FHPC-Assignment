@@ -2,7 +2,7 @@
 #SBATCH --no-requeue
 #SBATCH --job-name="OMP_scalability"
 #SBATCH --get-user-env
-#SBATCH --partition=EPYC
+#SBATCH --partition=THIN
 #SBATCH --nodes=1
 #SBATCH --exclusive
 #SBATCH --time=02:00:00
@@ -25,7 +25,7 @@ mpirun -np 2 ./main.x -i -k $k
 
 echo size,OMP-threads,time > results/omp_ordered.csv
 
-for i in {1..64}
+for i in {1..12}
 do
 	export OMP_NUM_THREADS=$i
 	for j in {1..10}
@@ -41,7 +41,7 @@ k=20000
 
 mpirun -np 2 ./main.x -i -k $k
 
-for i in {1..64}
+for i in {1..12}
 do
 	export OMP_NUM_THREADS=$i
 	for j in {1..10}

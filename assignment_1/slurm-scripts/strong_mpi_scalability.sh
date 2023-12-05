@@ -2,8 +2,8 @@
 #SBATCH --no-requeue
 #SBATCH --job-name="strong_MPI_scalability"
 #SBATCH --get-user-env
-#SBATCH --partition=EPYC
-#SBATCH --nodes=1
+#SBATCH --partition=THIN
+#SBATCH --nodes=2
 #SBATCH --exclusive
 #SBATCH --time=02:00:00
 #SBATCH --output=/u/dssc/drsandro/fast/FHPC-Assignment/assignment_1/slurm.out/strong_MPI_scal_%j.out
@@ -25,7 +25,7 @@ mpirun -np 2 ./main.x -i -k $k
 
 echo size,cores,time > results/strong_MPI_ordered_$k.csv
 
-for i in {1..64}
+for i in {1..24}
 do
     for j in {1..10}
     do
@@ -40,7 +40,7 @@ k=20000
 
 mpirun -np 2 ./main.x -i -k $k
 
-for i in {1..64}
+for i in {1..24}
 do
     for j in {1..10}
     do
