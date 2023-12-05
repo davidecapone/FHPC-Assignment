@@ -1,8 +1,27 @@
 # Assignment 1
 
-In this folder you find all the files for the first assignment (the Conway's game of life).
+A parallel implementation of the Conway's Game of Life using the C programming language, with a hybridization of the MPI and OpenMP libraries, following the requirements given in the [assignment instructions](https://github.com/Foundations-of-HPC/Foundations_of_HPC_2022/blob/main/Assignment/exercise1/Assignment_exercise1.pdf) file, follows a scalability test on the Orfeo cluster.
 
-## How to run the code
+## Content of this directory
+- [`main.c`](main.c): the file that is used to run the program with the corresponding arguments;
+- [`MakeFile`](/assignment_1/Makefile): the file that is used to compile the code;
+- [`plots.ipynb`](plots.ipynb): the python code used to create the plots for the final report and analyze them;
+- [`assets/`](/assignment_1/assets/): the folder that contains all the graph images for the final report;
+- [`include/`](/assignment_1/include/): the folder that contains the header files;
+- [`obj/`](/assignment_1/obj/): the folder that contains the object files, created during the compilation;
+- [`results/`](/assignment_1/results/): the folder that conatins the results for the scalabililty test in csv format.
+- [`slurm-scripts/`](/assignment_1/slurm-scripts/): the folder that contains the following slurm scripts:
+  - [`omp_scalability.sh`](/assignment_1/slurm-scripts/omp_scalability.sh): 
+  - [`run.sh`](/assignment_1/slurm-scripts/run.sh):
+  - [`strong_mpi_scalability.sh`](/assignment_1/slurm-scripts/strong_mpi_scalability.sh):
+- [`slurm.out/`](/assignment_1/slurm.out/):
+- [`snaps/`](/assignment_1/snaps/):
+- [`src/`](/assignment_1/src/):
+
+
+
+
+
 In order to run the game with your custom settings, you can modify the file `slurm-scripts/run.sh` and then easily run it with the `sbatch` command:
 
 ```

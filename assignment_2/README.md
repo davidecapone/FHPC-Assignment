@@ -10,7 +10,7 @@ An evaluation of two math libraries (openBLAS and MKL), through the execution of
 - [`gemm_ss.c`](gemm_ss.c): the code that performs the level three BLAS routine, with an ad hoc output for the <b>size scalability</b> tests;
 - [`plots.ipynb`](plots.ipynb): the python code used to create the plots for the final report and analyze them;
 - [`assets/`](/assignment_2/assets/): the folder that contains all the graph images for the final report;
-- [`results/`](/assignment_2/results/): the folder that contains all the results for the core scaling and for the size scalability analyses;
+- [`results/`](/assignment_2/results/): the folder that contains all the results for the core scaling and for the size scalability analyses, in csv format;
 - [`scripts/`](/assignment_2/scripts/): the folder that contains the slurm scripts for the various tests;
   - [`run_core_scaling_epyc.sh`](/assignment_2/scripts/run_core_scaling_epyc.sh)
   - [`run_core_scaling_thin.sh`](/assignment_2/scripts/run_core_scaling_thin.sh)
